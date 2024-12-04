@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ijo">#336E68</color>
+    <color name="navy">#2D3D4F</color>
+    <color name="navy_muda">#2d3e50</color>
 </resources>

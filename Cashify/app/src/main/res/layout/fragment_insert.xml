@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
+        android:background="@color/navy"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Tambah Data"
         app:titleTextColor="@android:color/white" />
@@ -258,7 +258,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Generate"
-                android:backgroundTint="@color/teal_700"
                 android:textColor="@android:color/white"
             />
         </LinearLayout>
