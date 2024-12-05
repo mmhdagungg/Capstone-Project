@@ -52,7 +52,7 @@
                     android:id="@+id/edTanggal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:hint="Pilih Tanggal"
                     android:ems="10"
                     android:inputType="none"
                     android:focusable="false"
