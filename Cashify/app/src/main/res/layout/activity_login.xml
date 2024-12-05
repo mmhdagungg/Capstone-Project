@@ -156,4 +156,13 @@
         app:layout_constraintGuide_percent="0.1"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/tvDontHaveAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Don't have an account yet? Register"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
