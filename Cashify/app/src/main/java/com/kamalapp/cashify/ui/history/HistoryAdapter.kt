@@ -1,5 +1,3 @@
-package com.kamalapp.cashify.ui.history
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +7,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.HistoryItem
 
-class HistoryAdapter(private val historyList: List<HistoryItem>) :
-    RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(
+    private val items: List<HistoryItem>,
+    private val onItemClick: (HistoryItem) -> Unit
+) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_title)
         val date: TextView = itemView.findViewById(R.id.tv_date)
         val icon: ImageView = itemView.findViewById(R.id.iv_icon)
+
+        fun bind(item: HistoryItem) {
+            title.text = item.title
+            date.text = item.date
+            icon.setImageResource(item.iconRes)
+            itemView.setOnClickListener { onItemClick(item) }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -25,11 +32,8 @@ class HistoryAdapter(private val historyList: List<HistoryItem>) :
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        val history = historyList[position]
-        holder.title.text = history.title
-        holder.date.text = history.date
-        holder.icon.setImageResource(history.iconRes)
+        holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int = historyList.size
+    override fun getItemCount(): Int = items.size
 }

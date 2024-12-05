@@ -1,5 +1,7 @@
 package com.kamalapp.cashify.ui.history
 
+import HistoryAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.HistoryItem
 import com.kamalapp.cashify.databinding.FragmentHistoryBinding
+import com.kamalapp.cashify.ui.detailHistory.DetailHistoryActivity
 
 class HistoryFragment : Fragment() {
 
@@ -30,7 +33,11 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = HistoryAdapter(getHistoryData())
+
+        val adapter = HistoryAdapter(getHistoryData()) {
+            val intent = Intent(requireContext(), DetailHistoryActivity::class.java)
+            startActivity(intent)
+        }
         binding.rvHistory.adapter = adapter
 
         binding.edTanggal.setOnClickListener {
@@ -42,7 +49,7 @@ class HistoryFragment : Fragment() {
         _binding = null
     }
 
-    // datanya masih dummy
+    // Data dummy untuk diisi ke RecyclerView
     private fun getHistoryData(): List<HistoryItem> {
         return listOf(
             HistoryItem("Hasil Analisis", "11-11-2024", R.drawable.ic_analysis),

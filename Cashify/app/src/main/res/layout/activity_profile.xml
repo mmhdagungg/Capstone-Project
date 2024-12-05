@@ -85,15 +85,7 @@
         android:textAllCaps="false" />
 
 
-    <Button
-        android:id="@+id/btnFavoriteArticles"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#354259"
-        android:text="Favorite Articles"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false" />
+
 
 
     <Button
