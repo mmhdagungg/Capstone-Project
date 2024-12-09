@@ -105,11 +105,14 @@
         app:startIconDrawable="@drawable/ic_baseline_lock_24"
         app:endIconMode="password_toggle">
 
-        <com.kamalapp.cashify.custom.PasswordEditText
-            android:id="@+id/ed_login_password"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:ems="10"
+            android:inputType="textPassword"
+            android:paddingVertical="17dp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
