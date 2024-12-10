@@ -10,6 +10,8 @@
     <string name="deskripsi">Deskripsi</string>
     <string name="judul">judul</string>
     <string name="error_password">Password tidak boleh kurang dari 8 karakter</string>
+    <string name="greeting_text">Hi, %1$s!</string>
+
 
     <string-array name="judul_artikel">
         <item>50 Cara Mengembangkan Usaha Agar Kian Maju dan Sukses</item>

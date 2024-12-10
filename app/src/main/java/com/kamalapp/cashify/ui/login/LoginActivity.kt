@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kamalapp.cashify.MainActivity
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.response.LoginResponse
+import com.kamalapp.cashify.data.response.ProfileResponse
 import com.kamalapp.cashify.data.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,20 +61,17 @@ class LoginActivity : AppCompatActivity() {
                 showLoading(false)
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    if (loginResponse != null) {
-                        Toast.makeText(this@LoginActivity, "Login berhasil!", Toast.LENGTH_SHORT).show()
+                    if (loginResponse != null && loginResponse.token != null) {
+                        val token = "Bearer ${loginResponse.token}"
 
-                        // Simpan token dan status login
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
-                            putString("TOKEN", loginResponse.token)
+                            putString("TOKEN", token)
                             putBoolean("IS_LOGGED_IN", true)
                             apply()
                         }
 
-                        // Pindah ke MainActivity
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                        finish()
+                        fetchUserProfile(token)
                     }
                 } else {
                     val errorMessage = response.message()
@@ -84,6 +82,35 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 showLoading(false)
                 Toast.makeText(this@LoginActivity, "Login gagal: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchUserProfile(token: String) {
+        val client = ApiConfig.instance.getUserProfile(token)
+        client.enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                if (response.isSuccessful) {
+                    val profileResponse = response.body()
+                    if (profileResponse != null) {
+                        val userName = profileResponse.user?.name
+
+                        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+                        with(sharedPref.edit()) {
+                            putString("USER_NAME", userName)
+                            apply()
+                        }
+
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
+                    }
+                } else {
+                    Toast.makeText(this@LoginActivity, "Gagal mengambil profil pengguna", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Gagal mengambil profil pengguna: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
