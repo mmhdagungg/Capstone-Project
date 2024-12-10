@@ -15,29 +15,54 @@
         <item>50 Cara Mengembangkan Usaha Agar Kian Maju dan Sukses</item>
         <item>Kembangkan Usaha dengan 11 Cara Mengembangkan Usaha dalam Kewirausahaan</item>
         <item>15 Cara untuk Mengembangkan Usaha agar Menguntungkan</item>
+        <item>10 Cara Mengembangkan Usaha atau Bisnis agar Untung</item>
+        <item>9 Cara Mengembangkan Usaha Kecil Menjadi Besar dan Efisien!</item>
+        <item>8 Cara Mengelola Risiko Finansial Bagi Pengusaha Muda</item>
+        <item>Tips Mitigasi Risiko Keuangan di Perusahaan, Serta Solusinya</item>
+        <item>Ini Dia! 5 Tips Jitu Untuk Menghindari Bisnis dari Kerugian</item>
     </string-array>
 
     <string-array name="deskripsi_artikel">
         <item>Apakah kamu sedang mencari tahu bagaimana cara mengembangkan usaha agar menjadi sukses? Well, kamu datang ke artikel yang tepat..</item>
         <item>Hal yang paling penting dalam mengembangkan usaha hingga sukses yaitu selalu melakukan evaluasi terhadap strategi bisnis yang dijalankan.</item>
         <item>Kunci pertama dari menjalankan usaha adalah Anda perlu niat yang kuat. Sisanya adalah cara-cara untuk mengembangkan usaha berikut ini.</item>
+        <item>Jika memikirkan tentang memulai bisnis dari nol, kita semua tahu memang tidak mudah. Tantangannya akan berlanjut pada bagaimana cara mengembangkan usaha tersebut sehingga bisa tetap berdiri kokoh dan memiliki pelanggan yang loyal.</item>
+        <item>Usaha kecil tanpa disangka dapat membantu pertumbuhan ekonomi yang signifikan. Bahkan, banyak usaha kecil yang memiliki potensi untuk semakin maju dan berkembang.</item>
+        <item>Risiko finansial menjadi salah satu topik penting yang harus diperhatikan saat kita membangun bisnis.</item>
+        <item>Dalam dunia bisnis yang terus berubah dan tidak pasti, perusahaan sering kali dihadapkan pada berbagai risiko yang dapat mengganggu stabilitas keuangan mereka. </item>
+        <item>Membangun suatu bisnis memang bukanlah hal yang mudah. Kamu pasti akan menemui banyak sekali rintangan dalam perjalanan bisnis, salah satunya bisa saja mengalami kerugian.</item>
     </string-array>
 
     <string-array name="gambar_artikel">
         <item>@drawable/artikel1</item>
         <item>@drawable/artikel2</item>
         <item>@drawable/artikel3</item>
+        <item>@drawable/artikel4</item>
+        <item>@drawable/artikel5</item>
+        <item>@drawable/artikel6</item>
+        <item>@drawable/artikel7</item>
+        <item>@drawable/artikel8</item>
     </string-array>
 
     <string-array name="kategori_artikel">
         <item>Keuangan Sehat</item>
         <item>Keuangan Sehat</item>
         <item>Keuangan Sehat</item>
+        <item>Keuangan Sehat</item>
+        <item>Keuangan Sehat</item>
+        <item>Keuangan Kurang Sehat</item>
+        <item>Keuangan Kurang Sehat</item>
+        <item>Keuangan Kurang Sehat</item>
     </string-array>
 
     <string-array name="link_artikel">
         <item>https://depositobpr.id/blog/cara-mengembangkan-usaha</item>
-        <item>https://www.julo.co.id/blog/cara-mengembangkan-usaha-dalam-kewirausahaan</item>
+        <item>https://julo.co.id/blog/cara-mengembangkan-usaha-dalam-kewirausahaan</item>
         <item>https://fazz.com/id/newsroom/business/cara-untuk-mengembangkan-usaha/</item>
+        <item>https://info.populix.co/articles/cara-mengembangkan-usaha/</item>
+        <item>https://smartven.biz/blog/cara-mengembangkan-usaha-kecil-menjadi-besar</item>
+        <item>https://mediakeuangan.kemenkeu.go.id/article/show/8-cara-mengelola-risiko-finansial-bagi-pengusaha-muda</item>
+        <item>https://www.idscore.id/articles/tips-mitigasi-risiko-keuangan-di-perusahaan-serta-solusinya</item>
+        <item>https://kontrakhukum.com/article/kerugian-bisnis/</item>
     </string-array>
 </resources>
