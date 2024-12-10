@@ -1,5 +1,6 @@
 package com.kamalapp.cashify.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.artikel.Artikel
 import com.kamalapp.cashify.databinding.FragmentHomeBinding
+import com.kamalapp.cashify.data.response.ProfileResponse
+import com.kamalapp.cashify.data.retrofit.ApiConfig
 import com.kamalapp.cashify.ui.artikel.ArtikelActivity
 import com.kamalapp.cashify.ui.artikel.ListArtikelAdapter
 import com.kamalapp.cashify.ui.profile.ProfileActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
@@ -28,15 +34,12 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-
         artikelList.addAll(getArtikelList())
-
 
         val listArtikelAdapter = ListArtikelAdapter(artikelList)
         listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Artikel) {
                 Toast.makeText(requireContext(), "Kamu memilih ${data.judul}", Toast.LENGTH_SHORT).show()
-
 
                 val intent = Intent(requireContext(), ArtikelActivity::class.java)
                 intent.putExtra("URL", data.link)
@@ -50,14 +53,53 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-
-
         binding.ivProfile.setOnClickListener {
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Ambil token dari shared preferences
+        val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val token = sharedPref.getString("TOKEN", null)
+
+        // Jika token ada, panggil API untuk mendapatkan profil
+        if (!token.isNullOrEmpty()) {
+            fetchUserProfile(token)
+        } else {
+            binding.tvMenyapa.text = getString(R.string.greeting_text, "User")  // Jika tidak ada token
+        }
+    }
+
+    private fun fetchUserProfile(token: String) {
+        val apiService = ApiConfig.instance
+        val client = apiService.getUserProfile(token)
+
+        client.enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                if (response.isSuccessful) {
+                    val profile = response.body()?.user
+                    if (profile != null) {
+                        // Menampilkan nama user di tvMenyapa
+                        binding.tvMenyapa.text = getString(R.string.greeting_text, profile.name ?: "User")
+                    } else {
+                        binding.tvMenyapa.text = getString(R.string.greeting_text, "User")  // Default jika tidak ada nama
+                    }
+                } else {
+                    // Menampilkan pesan kesalahan jika gagal mengambil profil
+                    Toast.makeText(requireContext(), "Gagal memuat profil", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                // Menampilkan pesan kesalahan jika gagal koneksi
+                Toast.makeText(requireContext(), "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun getArtikelList(): ArrayList<Artikel> {
@@ -84,8 +126,6 @@ class HomeFragment : Fragment() {
         println("Artikel List: $listArtikel")
         return listArtikel
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

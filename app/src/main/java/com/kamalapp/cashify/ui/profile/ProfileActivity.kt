@@ -34,23 +34,23 @@ class ProfileActivity : AppCompatActivity() {
         btnLogout = findViewById(R.id.btnLogout)
         btnUpdateProfile = findViewById(R.id.btnUpdateProfile)
 
-        // Periksa token saat aktivitas dimulai
+
         val token = getToken()
         if (token.isNullOrEmpty()) {
             redirectToLogin()
             return
         }
 
-        // Panggil fungsi fetchUserProfile untuk mengambil nama user
+
         fetchUserProfile(token)
 
-        // Button Update Profile
+
         btnUpdateProfile.setOnClickListener {
             val intent = Intent(this, UpdateProfileActivity::class.java)
             startActivityForResult(intent, REQUEST_UPDATE_PROFILE)
         }
 
-        // Logout
+
         btnLogout.setOnClickListener {
             logoutUser()
         }
@@ -106,11 +106,11 @@ class ProfileActivity : AppCompatActivity() {
         })
     }
 
-    // Fungsi untuk menangani hasil dari UpdateProfileActivity
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_UPDATE_PROFILE && resultCode == RESULT_OK) {
-            // Jika update berhasil, panggil ulang fetchUserProfile untuk mendapatkan data terbaru
+
             val token = getToken()
             if (!token.isNullOrEmpty()) {
                 fetchUserProfile(token)

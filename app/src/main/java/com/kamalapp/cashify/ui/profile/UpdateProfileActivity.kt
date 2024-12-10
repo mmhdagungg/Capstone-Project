@@ -1,12 +1,9 @@
 package com.kamalapp.cashify.ui.profile
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.retrofit.ApiConfig
 import com.kamalapp.cashify.data.response.ProfileResponse
@@ -25,6 +22,10 @@ class UpdateProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_profile)
 
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         edUpdateNama = findViewById(R.id.edUpdateNama)
         edUpdateNamaLayout = findViewById(R.id.edUpdateNamaLayout)
@@ -34,6 +35,7 @@ class UpdateProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Token tidak ditemukan. Silakan login kembali.", Toast.LENGTH_SHORT).show()
             return
         }
+        fetchUserProfile(token)
 
         val btnUpdateProfile = findViewById<Button>(R.id.btnUpdateProfile)
         btnUpdateProfile.setOnClickListener {
@@ -47,9 +49,37 @@ class UpdateProfileActivity : AppCompatActivity() {
         }
     }
 
+    // Fungsi untuk menambahkan aksi back
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()  // Menangani aksi tombol back pada toolbar
+        return true
+    }
+
     private fun getToken(): String? {
         val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         return sharedPref.getString("TOKEN", null)
+    }
+
+    private fun fetchUserProfile(token: String) {
+        val apiService = ApiConfig.instance
+        val client = apiService.getUserProfile(token)
+
+        client.enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                if (response.isSuccessful) {
+                    val profile = response.body()?.user
+                    if (profile != null) {
+                        edUpdateNama.setText(profile.name)  // Mengisi kolom dengan nama pengguna
+                    }
+                } else {
+                    Toast.makeText(this@UpdateProfileActivity, "Gagal memuat profil", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                Toast.makeText(this@UpdateProfileActivity, "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun updateUserProfile(token: String, newName: String) {
@@ -78,5 +108,4 @@ class UpdateProfileActivity : AppCompatActivity() {
             }
         })
     }
-
 }
