@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Cashify</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_insert">Insert</string>
+    <string name="title_history">History</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget facilisis ligula 57% quis venenatis tortor. Integer ultricies nisl vestibulum volutpat aliquet. </string>
+    <string name="image">image</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="judul">judul</string>
+    <string name="error_password">Password tidak boleh kurang dari 8 karakter</string>
+</resources>
