@@ -1,0 +1,278 @@
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <color name=\"purple_200\">#FFBB86FC</color>\r\n    <color name=\"purple_500\">#FF6200EE</color>\r\n    <color name=\"purple_700\">#FF3700B3</color>\r\n    <color name=\"teal_200\">#FF03DAC5</color>\r\n    <color name=\"teal_700\">#FF018786</color>\r\n    <color name=\"black\">#FF000000</color>\r\n    <color name=\"white\">#FFFFFFFF</color>\r\n    <color name=\"ijo\">#336E68</color>\r\n    <color name=\"navy\">#2D3D4F</color>\r\n    <color name=\"navy_muda\">#2d3e50</color>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+--- a/app/src/main/res/values/colors.xml	
++++ b/app/src/main/res/values/colors.xml	
+@@ -7,6 +7,7 @@
+     <color name="teal_700">#FF018786</color>
+     <color name="black">#FF000000</color>
+     <color name="white">#FFFFFFFF</color>
++    <color name="abu">#F5F5F5</color>
+     <color name="ijo">#336E68</color>
+     <color name="navy">#2D3D4F</color>
+     <color name="navy_muda">#2d3e50</color>
+Index: app/src/main/res/layout/item_articles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.cardview.widget.CardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:card_view=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:layout_marginStart=\"8dp\"\r\n    android:layout_marginTop=\"8dp\"\r\n    android:layout_marginEnd=\"8dp\"\r\n    android:layout_marginBottom=\"8dp\"\r\n    card_view:cardCornerRadius=\"8dp\"\r\n    card_view:cardElevation=\"4dp\">\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:padding=\"8dp\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/iv_item_photo\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"100dp\"\r\n            android:contentDescription=\"@string/image\"\r\n            android:scaleType=\"centerCrop\"\r\n            android:transitionName=\"photoTransition\"\r\n            tools:src=\"@tools:sample/backgrounds/scenic\"\r\n            tools:ignore=\"MissingConstraints\" />\r\n\r\n\r\n        <TextView\r\n            android:id=\"@+id/tv_item_name\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"8dp\"\r\n            android:textSize=\"17sp\"\r\n            android:textStyle=\"bold\"\r\n            android:textColor=\"@android:color/black\"\r\n            card_view:layout_constraintTop_toBottomOf=\"@id/iv_item_photo\"\r\n            card_view:layout_constraintStart_toStartOf=\"parent\"\r\n            card_view:layout_constraintEnd_toEndOf=\"parent\"\r\n            tools:text=\"@string/judul\"\r\n            android:gravity=\"center\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/tv_item_description\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"8dp\"\r\n            android:textSize=\"15sp\"\r\n            android:textColor=\"@android:color/black\"\r\n            card_view:layout_constraintTop_toBottomOf=\"@id/tv_item_name\"\r\n            card_view:layout_constraintStart_toStartOf=\"parent\"\r\n            card_view:layout_constraintEnd_toEndOf=\"parent\"\r\n            tools:text=\"@string/deskripsi\"\r\n            android:maxLines=\"1\"\r\n            android:gravity=\"center\"/>\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</androidx.cardview.widget.CardView>\r\n
+===================================================================
+diff --git a/app/src/main/res/layout/item_articles.xml b/app/src/main/res/layout/item_articles.xml
+--- a/app/src/main/res/layout/item_articles.xml	
++++ b/app/src/main/res/layout/item_articles.xml	
+@@ -4,20 +4,19 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+-    android:layout_marginStart="8dp"
+-    android:layout_marginTop="8dp"
+-    android:layout_marginEnd="8dp"
+-    android:layout_marginBottom="8dp"
++    android:id="@+id/card_view"
++    android:layout_marginBottom="16dp"
+     card_view:cardCornerRadius="8dp"
+     card_view:cardElevation="4dp">
+ 
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
++        android:background="#E8F0FA"
+         android:padding="8dp">
+ 
+         <ImageView
+-            android:id="@+id/iv_item_photo"
++            android:id="@+id/ivItemPhoto"
+             android:layout_width="match_parent"
+             android:layout_height="100dp"
+             android:contentDescription="@string/image"
+@@ -28,31 +27,30 @@
+ 
+ 
+         <TextView
+-            android:id="@+id/tv_item_name"
++            android:id="@+id/tvItemName"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+-            android:textSize="17sp"
++            android:textSize="14sp"
+             android:textStyle="bold"
+-            android:textColor="@android:color/black"
+-            card_view:layout_constraintTop_toBottomOf="@id/iv_item_photo"
++            card_view:layout_constraintTop_toBottomOf="@id/ivItemPhoto"
+             card_view:layout_constraintStart_toStartOf="parent"
+             card_view:layout_constraintEnd_toEndOf="parent"
++            android:maxLines="2"
+             tools:text="@string/judul"
+             android:gravity="center"/>
+ 
+         <TextView
+-            android:id="@+id/tv_item_description"
++            android:id="@+id/tvItemDescription"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+-            android:textSize="15sp"
+-            android:textColor="@android:color/black"
+-            card_view:layout_constraintTop_toBottomOf="@id/tv_item_name"
++            android:textSize="13sp"
++            card_view:layout_constraintTop_toBottomOf="@id/tvItemName"
+             card_view:layout_constraintStart_toStartOf="parent"
+             card_view:layout_constraintEnd_toEndOf="parent"
+             tools:text="@string/deskripsi"
+-            android:maxLines="1"
++            android:maxLines="2"
+             android:gravity="center"/>
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.cardview.widget.CardView>
+Index: app/src/main/res/layout/fragment_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\".ui.home.HomeFragment\">\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/headerLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"70dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:gravity=\"center_vertical\"\r\n        android:background=\"@color/navy\"\r\n        android:padding=\"16dp\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/greetingText\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"Hi, Bambang\"\r\n            android:textSize=\"22sp\"\r\n            android:textColor=\"@android:color/white\"\r\n            android:fontFamily=\"sans-serif-medium\" />\r\n\r\n        <ImageView\r\n            android:id=\"@+id/ivProfile\"\r\n            android:layout_width=\"55dp\"\r\n            android:layout_height=\"55dp\"\r\n            android:src=\"@drawable/ic_account_circle\"\r\n            android:contentDescription=\"Profile Image\"\r\n            android:padding=\"8dp\" />\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/dateText\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"November 2024\"\r\n        android:textSize=\"16sp\"\r\n        android:textColor=\"@color/navy\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:paddingStart=\"16dp\"/>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        android:layout_marginTop=\"5dp\"\r\n        android:layout_marginBottom=\"10dp\">\r\n\r\n        <androidx.gridlayout.widget.GridLayout\r\n            android:id=\"@+id/Revenue\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginHorizontal=\"16dp\"\r\n            app:columnCount=\"2\"\r\n            app:rowCount=\"2\">\r\n\r\n            <com.google.android.material.card.MaterialCardView\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                app:cardBackgroundColor=\"@color/navy_muda\"\r\n                 android:layout_marginEnd=\"11dp\"\r\n                app:layout_columnWeight=\"1\"\r\n                app:layout_rowWeight=\"1\"\r\n                app:cardCornerRadius=\"5dp\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\"\r\n                    android:padding=\"16dp\"\r\n                    app:layout_column=\"0\"\r\n                    app:layout_row=\"0\">\r\n\r\n                    <TextView\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"Revenue\"\r\n                        android:textColor=\"@android:color/white\"\r\n                        android:textSize=\"15sp\" />\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/tvRevenue\"\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"Rp00.000.000\"\r\n                        android:textColor=\"@android:color/white\"\r\n                        android:textSize=\"19sp\" />\r\n                </LinearLayout>\r\n            </com.google.android.material.card.MaterialCardView>\r\n\r\n            <com.google.android.material.card.MaterialCardView\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                app:cardBackgroundColor=\"@color/navy_muda\"\r\n                app:layout_columnWeight=\"1\"\r\n                app:layout_rowWeight=\"1\"\r\n                app:cardCornerRadius=\"5dp\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\"\r\n                    android:padding=\"16dp\"\r\n                    app:layout_column=\"0\"\r\n                    app:layout_row=\"0\">\r\n\r\n                    <TextView\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"Expenses\"\r\n                        android:textColor=\"@android:color/white\"\r\n                        android:textSize=\"15sp\" />\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/tvExpenses\"\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"Rp00.000.000\"\r\n                        android:textColor=\"@android:color/white\"\r\n                        android:textSize=\"19sp\" />\r\n                </LinearLayout>\r\n            </com.google.android.material.card.MaterialCardView>\r\n        </androidx.gridlayout.widget.GridLayout>\r\n    </LinearLayout>\r\n\r\n\r\n    <androidx.gridlayout.widget.GridLayout\r\n        android:id=\"@+id/net\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginHorizontal=\"16dp\"\r\n        app:columnCount=\"2\"\r\n        app:rowCount=\"2\">\r\n\r\n\r\n        <com.google.android.material.card.MaterialCardView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:cardBackgroundColor=\"#2d3e50\"\r\n            app:layout_columnWeight=\"1\"\r\n            app:layout_rowWeight=\"1\"\r\n            app:cardCornerRadius=\"0dp\">\r\n\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"vertical\"\r\n                android:padding=\"16dp\">\r\n\r\n                <TextView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Net Margin\"\r\n                    android:textSize=\"14sp\"\r\n                    android:textColor=\"@android:color/white\"\r\n                    android:fontFamily=\"sans-serif-medium\" />\r\n\r\n                <TextView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Rp00.000.000\"\r\n                    android:textSize=\"19sp\"\r\n                    android:textColor=\"@android:color/white\" />\r\n            </LinearLayout>\r\n        </com.google.android.material.card.MaterialCardView>\r\n\r\n\r\n        <com.google.android.material.card.MaterialCardView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:cardBackgroundColor=\"@color/navy_muda\"\r\n            app:cardCornerRadius=\"0dp\"\r\n            app:layout_columnWeight=\"1\"\r\n            app:layout_rowWeight=\"1\">\r\n\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingStart=\"5dp\"\r\n                android:paddingTop=\"16dp\">\r\n\r\n                <TextView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Net Balance\"\r\n                    android:textSize=\"14sp\"\r\n                    android:textColor=\"@android:color/white\"\r\n                    android:fontFamily=\"sans-serif-medium\" />\r\n\r\n                <TextView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Rp00.000.000\"\r\n                    android:textSize=\"19sp\"\r\n                    android:textColor=\"@android:color/white\" />\r\n            </LinearLayout>\r\n        </com.google.android.material.card.MaterialCardView>\r\n    </androidx.gridlayout.widget.GridLayout>\r\n\r\n\r\n\r\n    <TextView\r\n        android:id=\"@+id/detailLink\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Lihat Detail →\"\r\n        android:textSize=\"15sp\"\r\n        android:textColor=\"@color/navy\"\r\n        android:layout_marginTop=\"8dp\"\r\n        android:layout_marginEnd=\"16dp\"\r\n        android:layout_gravity=\"end\" />\r\n\r\n    <androidx.gridlayout.widget.GridLayout\r\n        android:id=\"@+id/informasiLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_margin=\"16dp\"\r\n        app:columnCount=\"1\"\r\n        app:rowCount=\"1\">\r\n\r\n        <com.google.android.material.card.MaterialCardView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:cardBackgroundColor=\"@color/navy_muda\"\r\n            app:layout_columnWeight=\"1\"\r\n            app:layout_rowWeight=\"1\"\r\n            app:cardCornerRadius=\"5dp\">\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"150dp\"\r\n                android:text=\"@string/lorem\"\r\n                android:textColor=\"@android:color/white\"\r\n                android:textSize=\"15sp\"\r\n                android:gravity=\"center\"\r\n                android:padding=\"20dp\"/>\r\n\r\n\r\n        </com.google.android.material.card.MaterialCardView>\r\n    </androidx.gridlayout.widget.GridLayout>\r\n\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/articlesSection\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        android:layout_marginHorizontal=\"16dp\">\r\n\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"Articles\"\r\n            android:textSize=\"18sp\"\r\n            android:textColor=\"@color/navy\"\r\n            android:fontFamily=\"sans-serif-medium\"\r\n            android:layout_marginBottom=\"8dp\" />\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/rvArticles\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:padding=\"16dp\"\r\n            android:clipToPadding=\"false\"\r\n            android:scrollbars=\"vertical\" />\r\n\r\n    </LinearLayout>\r\n\r\n</LinearLayout>\r\n
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
+--- a/app/src/main/res/layout/fragment_home.xml	
++++ b/app/src/main/res/layout/fragment_home.xml	
+@@ -253,8 +253,7 @@
+         android:id="@+id/articlesSection"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:orientation="vertical"
+-        android:layout_marginHorizontal="16dp">
++        android:orientation="vertical">
+ 
+         <TextView
+             android:layout_width="wrap_content"
+@@ -263,15 +262,18 @@
+             android:textSize="18sp"
+             android:textColor="@color/navy"
+             android:fontFamily="sans-serif-medium"
+-            android:layout_marginBottom="8dp" />
++            android:layout_marginBottom="8dp"
++            android:layout_marginHorizontal="16dp"/>
+ 
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/rvArticles"
+             android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            android:padding="16dp"
+-            android:clipToPadding="false"
+-            android:scrollbars="vertical" />
++            android:layout_height="230dp"
++            android:layout_marginHorizontal="12dp"
++            android:paddingHorizontal="6dp"
++            android:scrollbars="vertical"
++            tools:listitem="@layout/item_articles" />
++
+ 
+     </LinearLayout>
+ 
+Index: app/src/main/java/com/kamalapp/cashify/ui/home/HomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kamalapp.cashify.ui.home\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.lifecycle.ViewModelProvider\r\nimport com.kamalapp.cashify.databinding.FragmentHomeBinding\r\nimport com.kamalapp.cashify.ui.profile.ProfileActivity\r\n\r\nclass HomeFragment : Fragment() {\r\n\r\n    private var _binding: FragmentHomeBinding? = null\r\n    private val binding get() = _binding!!\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater,\r\n        container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        val homeViewModel =\r\n            ViewModelProvider(this).get(HomeViewModel::class.java)\r\n\r\n        _binding = FragmentHomeBinding.inflate(inflater, container, false)\r\n        val root: View = binding.root\r\n\r\n\r\n        binding.ivProfile.setOnClickListener {\r\n            val intent = Intent(requireContext(), ProfileActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n\r\n        return root\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding = null\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/kamalapp/cashify/ui/home/HomeFragment.kt b/app/src/main/java/com/kamalapp/cashify/ui/home/HomeFragment.kt
+--- a/app/src/main/java/com/kamalapp/cashify/ui/home/HomeFragment.kt	
++++ b/app/src/main/java/com/kamalapp/cashify/ui/home/HomeFragment.kt	
+@@ -5,35 +5,88 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import android.widget.Toast
+ import androidx.fragment.app.Fragment
+-import androidx.lifecycle.ViewModelProvider
++import androidx.recyclerview.widget.LinearLayoutManager
++import com.kamalapp.cashify.R
++import com.kamalapp.cashify.data.artikel.Artikel
+ import com.kamalapp.cashify.databinding.FragmentHomeBinding
++import com.kamalapp.cashify.ui.artikel.ArtikelActivity
++import com.kamalapp.cashify.ui.artikel.ListArtikelAdapter
+ import com.kamalapp.cashify.ui.profile.ProfileActivity
+ 
+ class HomeFragment : Fragment() {
+ 
+     private var _binding: FragmentHomeBinding? = null
+     private val binding get() = _binding!!
++    private val artikelList = ArrayList<Artikel>()
+ 
+     override fun onCreateView(
+         inflater: LayoutInflater,
+         container: ViewGroup?,
+         savedInstanceState: Bundle?
+     ): View {
+-        val homeViewModel =
+-            ViewModelProvider(this).get(HomeViewModel::class.java)
+-
+         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+-        val root: View = binding.root
++
++        // Mengisi data artikel
++        artikelList.addAll(getArtikelList())
++
++        // Mengatur adapter RecyclerView
++        val listArtikelAdapter = ListArtikelAdapter(artikelList)
++        listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
++            override fun onItemClicked(data: Artikel) {
++                Toast.makeText(requireContext(), "Kamu memilih ${data.judul}", Toast.LENGTH_SHORT).show()
++
++                // Navigasi ke ArtikelActivity dengan data yang dipilih
++                val intent = Intent(requireContext(), ArtikelActivity::class.java)
++                intent.putExtra("URL", data.link)
++                startActivity(intent)
++            }
++        })
+ 
++        binding.rvArticles.apply {
++            layoutManager = LinearLayoutManager(requireContext()) // Tambahkan ini
++            adapter = listArtikelAdapter
++            setHasFixedSize(true)
++        }
+ 
++
++        // Navigasi ke profil
+         binding.ivProfile.setOnClickListener {
+             val intent = Intent(requireContext(), ProfileActivity::class.java)
+             startActivity(intent)
+         }
+ 
+-        return root
++        return binding.root
+     }
++
++    private fun getArtikelList(): ArrayList<Artikel> {
++        val judulArray = resources.getStringArray(R.array.judul_artikel)
++        val deskripsiArray = resources.getStringArray(R.array.deskripsi_artikel)
++        val gambarArray = resources.obtainTypedArray(R.array.gambar_artikel)
++        val kategoriArray = resources.getStringArray(R.array.kategori_artikel)
++        val linkArray = resources.getStringArray(R.array.link_artikel)
++
++        val listArtikel = ArrayList<Artikel>()
++        for (i in judulArray.indices) {
++            val artikel = Artikel(
++                judul = judulArray[i],
++                deskripsi = deskripsiArray[i],
++                gambar = gambarArray.getResourceId(i, -1),
++                kategori = kategoriArray[i],
++                link = linkArray[i]
++            )
++            listArtikel.add(artikel)
++        }
++
++        gambarArray.recycle()
++
++        // Log untuk memastikan data terisi
++        println("Artikel List: $listArtikel")
++        return listArtikel
++    }
++
++
+ 
+     override fun onDestroyView() {
+         super.onDestroyView()
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Cashify</string>\r\n    <string name=\"title_home\">Home</string>\r\n    <string name=\"title_dashboard\">Dashboard</string>\r\n    <string name=\"title_notifications\">Notifications</string>\r\n    <string name=\"title_insert\">Insert</string>\r\n    <string name=\"title_history\">History</string>\r\n    <string name=\"lorem\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget facilisis ligula 57% quis venenatis tortor. Integer ultricies nisl vestibulum volutpat aliquet. </string>\r\n    <string name=\"image\">image</string>\r\n    <string name=\"deskripsi\">Deskripsi</string>\r\n    <string name=\"judul\">judul</string>\r\n    <string name=\"error_password\">Password tidak boleh kurang dari 8 karakter</string>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	
++++ b/app/src/main/res/values/strings.xml	
+@@ -10,4 +10,34 @@
+     <string name="deskripsi">Deskripsi</string>
+     <string name="judul">judul</string>
+     <string name="error_password">Password tidak boleh kurang dari 8 karakter</string>
++
++    <string-array name="judul_artikel">
++        <item>50 Cara Mengembangkan Usaha Agar Kian Maju dan Sukses</item>
++        <item>Kembangkan Usaha dengan 11 Cara Mengembangkan Usaha dalam Kewirausahaan</item>
++        <item>15 Cara untuk Mengembangkan Usaha agar Menguntungkan</item>
++    </string-array>
++
++    <string-array name="deskripsi_artikel">
++        <item>Apakah kamu sedang mencari tahu bagaimana cara mengembangkan usaha agar menjadi sukses? Well, kamu datang ke artikel yang tepat.</item>
++        <item>Hal yang paling penting dalam mengembangkan usaha hingga sukses yaitu selalu melakukan evaluasi terhadap strategi bisnis yang dijalankan.</item>
++        <item>Kunci pertama dari menjalankan usaha adalah Anda perlu niat yang kuat. Sisanya adalah cara-cara untuk mengembangkan usaha berikut ini.</item>
++    </string-array>
++
++    <string-array name="gambar_artikel">
++        <item>@drawable/artikel1</item>
++        <item>@drawable/artikel2</item>
++        <item>@drawable/artikel3</item>
++    </string-array>
++
++    <string-array name="kategori_artikel">
++        <item>Keuangan Sehat</item>
++        <item>Keuangan Sehat</item>
++        <item>Keuangan Sehat</item>
++    </string-array>
++
++    <string-array name="link_artikel">
++        <item>https://depositobpr.id/blog/cara-mengembangkan-usaha</item>
++        <item>https://www.julo.co.id/blog/cara-mengembangkan-usaha-dalam-kewirausahaan</item>
++        <item>https://fazz.com/id/newsroom/business/cara-untuk-mengembangkan-usaha/</item>
++    </string-array>
+ </resources>
+\ No newline at end of file

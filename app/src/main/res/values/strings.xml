@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Cashify</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_insert">Insert</string>
+    <string name="title_history">History</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget facilisis ligula 57% quis venenatis tortor. Integer ultricies nisl vestibulum volutpat aliquet. </string>
+    <string name="image">image</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="judul">judul</string>
+    <string name="error_password">Password tidak boleh kurang dari 8 karakter</string>
+
+    <string-array name="judul_artikel">
+        <item>50 Cara Mengembangkan Usaha Agar Kian Maju dan Sukses</item>
+        <item>Kembangkan Usaha dengan 11 Cara Mengembangkan Usaha dalam Kewirausahaan</item>
+        <item>15 Cara untuk Mengembangkan Usaha agar Menguntungkan</item>
+    </string-array>
+
+    <string-array name="deskripsi_artikel">
+        <item>Apakah kamu sedang mencari tahu bagaimana cara mengembangkan usaha agar menjadi sukses? Well, kamu datang ke artikel yang tepat.</item>
+        <item>Hal yang paling penting dalam mengembangkan usaha hingga sukses yaitu selalu melakukan evaluasi terhadap strategi bisnis yang dijalankan.</item>
+        <item>Kunci pertama dari menjalankan usaha adalah Anda perlu niat yang kuat. Sisanya adalah cara-cara untuk mengembangkan usaha berikut ini.</item>
+    </string-array>
+
+    <string-array name="gambar_artikel">
+        <item>@drawable/artikel1</item>
+        <item>@drawable/artikel2</item>
+        <item>@drawable/artikel3</item>
+    </string-array>
+
+    <string-array name="kategori_artikel">
+        <item>Keuangan Sehat</item>
+        <item>Keuangan Sehat</item>
+        <item>Keuangan Sehat</item>
+    </string-array>
+
+    <string-array name="link_artikel">
+        <item>https://depositobpr.id/blog/cara-mengembangkan-usaha</item>
+        <item>https://www.julo.co.id/blog/cara-mengembangkan-usaha-dalam-kewirausahaan</item>
+        <item>https://fazz.com/id/newsroom/business/cara-untuk-mengembangkan-usaha/</item>
+    </string-array>
+</resources>

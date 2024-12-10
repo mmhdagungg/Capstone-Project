@@ -1,0 +1,216 @@
+Index: app/src/main/java/com/kamalapp/cashify/ui/splashScreen/SplashScreenActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kamalapp.cashify.ui.splashScreen\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.os.Handler\r\nimport android.view.animation.AnimationUtils\r\nimport android.widget.ImageView\r\nimport androidx.activity.enableEdgeToEdge\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.view.ViewCompat\r\nimport androidx.core.view.WindowInsetsCompat\r\nimport com.kamalapp.cashify.R\r\nimport com.kamalapp.cashify.ui.welcome.WelcomeActivity\r\n\r\nclass SplashScreenActivity : AppCompatActivity() {\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        enableEdgeToEdge()\r\n        setContentView(R.layout.activity_splash_screen)\r\n\r\n        val logoImageView = findViewById<ImageView>(R.id.logoImage)\r\n\r\n        val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)\r\n        val scaleUpAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_up)\r\n\r\n        logoImageView.startAnimation(fadeInAnimation)\r\n        logoImageView.startAnimation(scaleUpAnimation)\r\n\r\n        scaleUpAnimation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {\r\n            override fun onAnimationStart(animation: android.view.animation.Animation?) {}\r\n\r\n            override fun onAnimationRepeat(animation: android.view.animation.Animation?) {}\r\n\r\n            override fun onAnimationEnd(animation: android.view.animation.Animation?) {\r\n                Handler().postDelayed({\r\n                    val intent = Intent(this@SplashScreenActivity, WelcomeActivity::class.java)\r\n                    startActivity(intent)\r\n\r\n                    finish()\r\n                }, 500)\r\n            }\r\n        })\r\n\r\n        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\r\n            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\r\n            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\r\n            insets\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/kamalapp/cashify/ui/splashScreen/SplashScreenActivity.kt b/app/src/main/java/com/kamalapp/cashify/ui/splashScreen/SplashScreenActivity.kt
+--- a/app/src/main/java/com/kamalapp/cashify/ui/splashScreen/SplashScreenActivity.kt	
++++ b/app/src/main/java/com/kamalapp/cashify/ui/splashScreen/SplashScreenActivity.kt	
+@@ -1,14 +1,15 @@
+ package com.kamalapp.cashify.ui.splashScreen
+ 
++import android.content.Context
+ import android.content.Intent
+ import android.os.Bundle
+ import android.os.Handler
+ import android.view.animation.AnimationUtils
+ import android.widget.ImageView
+-import androidx.activity.enableEdgeToEdge
+ import androidx.appcompat.app.AppCompatActivity
+ import androidx.core.view.ViewCompat
+ import androidx.core.view.WindowInsetsCompat
++import com.kamalapp.cashify.MainActivity
+ import com.kamalapp.cashify.R
+ import com.kamalapp.cashify.ui.welcome.WelcomeActivity
+ 
+@@ -16,17 +17,17 @@
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+-        enableEdgeToEdge()
+         setContentView(R.layout.activity_splash_screen)
+ 
+         val logoImageView = findViewById<ImageView>(R.id.logoImage)
+ 
++        // Tambahkan animasi
+         val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+         val scaleUpAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_up)
+-
+         logoImageView.startAnimation(fadeInAnimation)
+         logoImageView.startAnimation(scaleUpAnimation)
+ 
++        // Listener animasi selesai
+         scaleUpAnimation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {
+             override fun onAnimationStart(animation: android.view.animation.Animation?) {}
+ 
+@@ -34,18 +35,32 @@
+ 
+             override fun onAnimationEnd(animation: android.view.animation.Animation?) {
+                 Handler().postDelayed({
+-                    val intent = Intent(this@SplashScreenActivity, WelcomeActivity::class.java)
+-                    startActivity(intent)
+-
+-                    finish()
++                    navigateToNextScreen() // Navigasi ke layar berikutnya
+                 }, 500)
+             }
+         })
+ 
++        // Menyesuaikan padding dengan insets
+         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+             insets
+         }
+     }
++
++    private fun navigateToNextScreen() {
++        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
++        val isLoggedIn = sharedPref.getBoolean("IS_LOGGED_IN", false)
++
++        val intent = if (isLoggedIn) {
++            // Jika sudah login, arahkan ke MainActivity
++            Intent(this, MainActivity::class.java)
++        } else {
++            // Jika belum login, arahkan ke WelcomeActivity
++            Intent(this, WelcomeActivity::class.java)
++        }
++
++        startActivity(intent)
++        finish()
++    }
+ }
+Index: app/src/main/java/com/kamalapp/cashify/ui/login/LoginActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kamalapp.cashify.ui.login\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.view.View\r\nimport android.widget.Button\r\nimport android.widget.EditText\r\nimport android.widget.ProgressBar\r\nimport android.widget.Toast\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.kamalapp.cashify.MainActivity\r\nimport com.kamalapp.cashify.R\r\nimport com.kamalapp.cashify.data.response.LoginResponse\r\nimport com.kamalapp.cashify.data.retrofit.ApiConfig\r\nimport retrofit2.Call\r\nimport retrofit2.Callback\r\nimport retrofit2.Response\r\n\r\nclass LoginActivity : AppCompatActivity() {\r\n\r\n    private lateinit var progressBar: ProgressBar\r\n    private lateinit var btnLogin: Button\r\n    private lateinit var emailEditText: EditText\r\n    private lateinit var passwordEditText: EditText\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_login)\r\n\r\n        progressBar = findViewById(R.id.progressBar)\r\n        btnLogin = findViewById(R.id.loginButton)\r\n        emailEditText = findViewById(R.id.ed_login_email)\r\n        passwordEditText = findViewById(R.id.edPassword)\r\n\r\n        btnLogin.setOnClickListener {\r\n            val email = emailEditText.text.toString().trim()\r\n            val password = passwordEditText.text.toString().trim()\r\n\r\n            if (email.isEmpty() || password.isEmpty()) {\r\n                Toast.makeText(this, \"Email dan password tidak boleh kosong\", Toast.LENGTH_SHORT).show()\r\n                return@setOnClickListener\r\n            }\r\n\r\n            loginUser(email, password)\r\n        }\r\n    }\r\n\r\n    private fun loginUser(email: String, password: String) {\r\n        showLoading(true)\r\n\r\n        // Data login yang dikirim ke API\r\n        val loginData = mapOf(\r\n            \"email\" to email,\r\n            \"password\" to password\r\n        )\r\n\r\n        // Retrofit request\r\n        val client = ApiConfig.instance.loginUser(loginData)\r\n        client.enqueue(object : Callback<LoginResponse> {\r\n            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {\r\n                showLoading(false)\r\n                if (response.isSuccessful) {\r\n                    val loginResponse = response.body()\r\n                    if (loginResponse != null) {\r\n                        Toast.makeText(this@LoginActivity, \"Login berhasil!\", Toast.LENGTH_SHORT).show()\r\n\r\n                        // Simpan token (opsional)\r\n                        val token = loginResponse.token\r\n\r\n                        // Pindah ke MainActivity\r\n                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))\r\n                        finish()\r\n                    }\r\n                } else {\r\n                    // Error dari server\r\n                    val errorMessage = response.message()\r\n                    Toast.makeText(this@LoginActivity, \"Login gagal: $errorMessage\", Toast.LENGTH_SHORT).show()\r\n                }\r\n            }\r\n\r\n            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {\r\n                showLoading(false)\r\n                Toast.makeText(this@LoginActivity, \"Login gagal: ${t.message}\", Toast.LENGTH_SHORT).show()\r\n            }\r\n        })\r\n    }\r\n\r\n    private fun showLoading(isLoading: Boolean) {\r\n        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE\r\n        btnLogin.isEnabled = !isLoading\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/kamalapp/cashify/ui/login/LoginActivity.kt b/app/src/main/java/com/kamalapp/cashify/ui/login/LoginActivity.kt
+--- a/app/src/main/java/com/kamalapp/cashify/ui/login/LoginActivity.kt	
++++ b/app/src/main/java/com/kamalapp/cashify/ui/login/LoginActivity.kt	
+@@ -1,5 +1,6 @@
+ package com.kamalapp.cashify.ui.login
+ 
++import android.content.Context
+ import android.content.Intent
+ import android.os.Bundle
+ import android.view.View
+@@ -48,13 +49,11 @@
+     private fun loginUser(email: String, password: String) {
+         showLoading(true)
+ 
+-        // Data login yang dikirim ke API
+         val loginData = mapOf(
+             "email" to email,
+             "password" to password
+         )
+ 
+-        // Retrofit request
+         val client = ApiConfig.instance.loginUser(loginData)
+         client.enqueue(object : Callback<LoginResponse> {
+             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+@@ -64,15 +63,19 @@
+                     if (loginResponse != null) {
+                         Toast.makeText(this@LoginActivity, "Login berhasil!", Toast.LENGTH_SHORT).show()
+ 
+-                        // Simpan token (opsional)
+-                        val token = loginResponse.token
++                        // Simpan token dan status login
++                        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
++                        with(sharedPref.edit()) {
++                            putString("TOKEN", loginResponse.token)
++                            putBoolean("IS_LOGGED_IN", true)
++                            apply()
++                        }
+ 
+                         // Pindah ke MainActivity
+                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                         finish()
+                     }
+                 } else {
+-                    // Error dari server
+                     val errorMessage = response.message()
+                     Toast.makeText(this@LoginActivity, "Login gagal: $errorMessage", Toast.LENGTH_SHORT).show()
+                 }
+Index: app/src/main/res/layout/activity_artikel.xml
+===================================================================
+diff --git a/app/src/main/res/layout/activity_artikel.xml b/app/src/main/res/layout/activity_artikel.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/layout/activity_artikel.xml	
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".ui.artikel.ArtikelActivity">
++
++        <WebView
++            android:id="@+id/webView"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent" />
++    </androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/java/com/kamalapp/cashify/ui/artikel/ListArtikelAdapter.kt
+===================================================================
+diff --git a/app/src/main/java/com/kamalapp/cashify/ui/artikel/ListArtikelAdapter.kt b/app/src/main/java/com/kamalapp/cashify/ui/artikel/ListArtikelAdapter.kt
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/java/com/kamalapp/cashify/ui/artikel/ListArtikelAdapter.kt	
+@@ -0,0 +1,50 @@
++package com.kamalapp.cashify.ui.artikel
++
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import android.widget.ImageView
++import android.widget.TextView
++import androidx.recyclerview.widget.RecyclerView
++import com.kamalapp.cashify.R
++import com.kamalapp.cashify.data.artikel.Artikel
++
++class ListArtikelAdapter(private val artikelList: ArrayList<Artikel>) :
++    RecyclerView.Adapter<ListArtikelAdapter.ArtikelViewHolder>() {
++
++    private lateinit var onItemClickCallback: OnItemClickCallback
++
++    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
++        this.onItemClickCallback = onItemClickCallback
++    }
++
++    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtikelViewHolder {
++        val view: View = LayoutInflater.from(parent.context)
++            .inflate(R.layout.item_articles, parent, false)
++        return ArtikelViewHolder(view)
++    }
++
++    override fun getItemCount(): Int = artikelList.size
++
++    override fun onBindViewHolder(holder: ArtikelViewHolder, position: Int) {
++        val artikel = artikelList[position]
++        holder.imgPhoto.setImageResource(artikel.gambar)
++        holder.tvName.text = artikel.judul
++        holder.tvDescription.text = artikel.deskripsi
++
++        // Event klik item
++        holder.itemView.setOnClickListener {
++            onItemClickCallback.onItemClicked(artikelList[holder.adapterPosition])
++        }
++    }
++
++    class ArtikelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
++        val imgPhoto: ImageView = itemView.findViewById(R.id.ivItemPhoto)
++        val tvName: TextView = itemView.findViewById(R.id.tvItemName)
++        val tvDescription: TextView = itemView.findViewById(R.id.tvItemDescription)
++    }
++
++    interface OnItemClickCallback {
++        fun onItemClicked(data: Artikel)
++    }
++}
