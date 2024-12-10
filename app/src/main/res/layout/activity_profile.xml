@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
-        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -21,8 +20,6 @@
             android:background="@color/navy_muda"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:navigationIcon="@drawable/ic_back" />
-
-        <!-- Title in Center -->
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
@@ -53,7 +50,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_account_circle" />
 
-    <!-- Name -->
     <TextView
         android:id="@+id/tvProfileName"
         android:layout_width="wrap_content"
@@ -74,7 +70,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
     <Button
         android:id="@+id/btnUpdateProfile"
         android:layout_width="match_parent"
@@ -83,10 +78,6 @@
         android:text="Update Profile"
         android:textColor="#FFFFFF"
         android:textAllCaps="false" />
-
-
-
-
 
     <Button
         android:id="@+id/btnLogout"
