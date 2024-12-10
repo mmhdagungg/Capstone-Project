@@ -32,7 +32,7 @@ class ListArtikelAdapter(private val artikelList: ArrayList<Artikel>) :
         holder.tvName.text = artikel.judul
         holder.tvDescription.text = artikel.deskripsi
 
-        // Event klik item
+
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(artikelList[holder.adapterPosition])
         }

@@ -28,16 +28,16 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Mengisi data artikel
+
         artikelList.addAll(getArtikelList())
 
-        // Mengatur adapter RecyclerView
+
         val listArtikelAdapter = ListArtikelAdapter(artikelList)
         listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Artikel) {
                 Toast.makeText(requireContext(), "Kamu memilih ${data.judul}", Toast.LENGTH_SHORT).show()
 
-                // Navigasi ke ArtikelActivity dengan data yang dipilih
+
                 val intent = Intent(requireContext(), ArtikelActivity::class.java)
                 intent.putExtra("URL", data.link)
                 startActivity(intent)
@@ -45,13 +45,13 @@ class HomeFragment : Fragment() {
         })
 
         binding.rvArticles.apply {
-            layoutManager = LinearLayoutManager(requireContext()) // Tambahkan ini
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = listArtikelAdapter
             setHasFixedSize(true)
         }
 
 
-        // Navigasi ke profil
+
         binding.ivProfile.setOnClickListener {
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             startActivity(intent)
@@ -81,7 +81,6 @@ class HomeFragment : Fragment() {
 
         gambarArray.recycle()
 
-        // Log untuk memastikan data terisi
         println("Artikel List: $listArtikel")
         return listArtikel
     }

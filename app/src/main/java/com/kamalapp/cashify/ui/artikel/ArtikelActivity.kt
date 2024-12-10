@@ -22,7 +22,7 @@ class ArtikelActivity : AppCompatActivity() {
         with(binding.webView) {
             webViewClient = WebViewClient()
             settings.apply {
-                javaScriptEnabled = true // Jika diperlukan untuk konten dengan JS
+                javaScriptEnabled = true
                 domStorageEnabled = true
             }
             loadUrl(url)
