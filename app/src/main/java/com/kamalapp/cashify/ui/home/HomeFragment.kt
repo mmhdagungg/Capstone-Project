@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val artikelList = ArrayList<Artikel>()
 
-    private var idProfile: String? = null
+    private var userId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,8 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        val sharedPref =
-            requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val userId = sharedPref.getInt("USER_ID", 0)
         val token = sharedPref.getString("TOKEN", null)
         val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
 
@@ -58,10 +58,10 @@ class HomeFragment : Fragment() {
 
         if (!token.isNullOrEmpty()) {
             loadUserProfile(token) { profileFetched ->
-                if (profileFetched && !idProfile.isNullOrEmpty()) {
-                    loadDashboardData(token, idProfile!!, currentDate)
+                if (profileFetched && userId != 0) {
+                    loadDashboardData(token, userId.toString(), currentDate)
                 } else {
-                    Toast.makeText(requireContext(), "ID Profil tidak ditemukan.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "ID Pengguna tidak ditemukan.", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.user?.let { profile ->
-                        idProfile = profile.id.toString()
+                        userId = profile.id.toString()
                         binding.tvMenyapa.text = getString(R.string.greeting_text, profile.name ?: "User")
                         callback(true)
                     } ?: callback(false)
@@ -117,8 +117,8 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun loadDashboardData(token: String, idProfile: String, dateTime: String) {
-        ApiConfig.instance.getDashboardData(token, idProfile.toInt(), dateTime)
+    private fun loadDashboardData(token: String, userId: String, dateTime: String) {
+        ApiConfig.instance.getDashboardData(token, userId.toInt(), dateTime)
             .enqueue(object : Callback<DashboardResponse> {
                 override fun onResponse(
                     call: Call<DashboardResponse>,

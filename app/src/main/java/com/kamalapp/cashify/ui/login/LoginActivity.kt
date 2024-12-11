@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null && loginResponse.token != null) {
-                        val token = "Bearer ${loginResponse.token}"
+                        val token = loginResponse.token
 
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
@@ -94,10 +94,12 @@ class LoginActivity : AppCompatActivity() {
                     val profileResponse = response.body()
                     if (profileResponse != null) {
                         val userName = profileResponse.user?.name
+                        val userId = profileResponse.user?.id // Pastikan atribut ini sesuai dengan respons API
 
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
                             putString("USER_NAME", userName)
+                            putInt("USER_ID", userId ?: 0) // Simpan ID pengguna
                             apply()
                         }
 
@@ -114,6 +116,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun showLoading(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

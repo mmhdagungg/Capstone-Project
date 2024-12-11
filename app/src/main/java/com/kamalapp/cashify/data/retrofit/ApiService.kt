@@ -1,6 +1,8 @@
 package com.kamalapp.cashify.data.retrofit
 
 import com.kamalapp.cashify.data.response.DashboardResponse
+import com.kamalapp.cashify.data.response.InputData
+import com.kamalapp.cashify.data.response.InputResponse
 import com.kamalapp.cashify.data.response.LoginResponse
 import com.kamalapp.cashify.data.response.ProfileResponse
 import com.kamalapp.cashify.data.response.RegisterResponse
@@ -39,11 +41,16 @@ interface ApiService {
     @GET("/api/dashboard/{id_profile}")
     fun getDashboardData(
         @Header("Authorization") token: String,
-        @retrofit2.http.Path("id_profile") idProfile: Int,
+        @retrofit2.http.Path("id_profile") userId: Int,
         @retrofit2.http.Query("dateTime") dateTime: String
     ): Call<DashboardResponse>
 
 
-
+    @POST("/api/data/{id_profile}/input")
+    fun inputData(
+        @Header("Authorization") token: String,
+        @retrofit2.http.Path("id_profile") userId: Int,
+        @Body inputData: InputData
+    ): Call<InputResponse>
 
 }
