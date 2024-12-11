@@ -1,3 +1,6 @@
+package com.kamalapp.cashify.ui.history
+
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +11,7 @@ import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.HistoryItem
 
 class HistoryAdapter(
-    private val items: List<HistoryItem>,
+    private var items: List<HistoryItem>,
     private val onItemClick: (HistoryItem) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
@@ -25,6 +28,8 @@ class HistoryAdapter(
         }
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history, parent, false)
@@ -36,4 +41,10 @@ class HistoryAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateData(newItems: List<HistoryItem>) {
+        items = newItems
+        Log.d("HistoryAdapter", "New items: $newItems") // Tambahkan log untuk memeriksa item
+        notifyDataSetChanged()
+    }
 }

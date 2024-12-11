@@ -1,6 +1,7 @@
 package com.kamalapp.cashify.data.retrofit
 
 import com.kamalapp.cashify.data.response.DashboardResponse
+import com.kamalapp.cashify.data.response.DetailHistoryResponse
 import com.kamalapp.cashify.data.response.HistoryResponse
 import com.kamalapp.cashify.data.response.InputData
 import com.kamalapp.cashify.data.response.InputResponse
@@ -59,7 +60,15 @@ interface ApiService {
     fun getHistoryData(
         @Header("Authorization") token: String,
         @Path("id_profile") userId: Int,
-        @Query("dateTime") dateTime: String
+        @Path("dateTime") dateTime: String
     ): Call<HistoryResponse>
+
+    @GET("/api/data/history/{id_profile}/{id_data}/details")
+    fun getDetailHistory(
+        @Header("Authorization") token: String,
+        @Path("id_profile") idProfile: Int,
+        @Path("id_data") idData: Int
+    ): Call<DetailHistoryResponse>
+
 
 }

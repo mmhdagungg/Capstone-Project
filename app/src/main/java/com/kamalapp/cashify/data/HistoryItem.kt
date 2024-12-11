@@ -5,3 +5,4 @@ data class HistoryItem(
     val date: String,
     val iconRes: Int
 )
+
