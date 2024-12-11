@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                 showLoading(false)
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    if (loginResponse != null && loginResponse.token != null) {
+                    if (loginResponse != null && !loginResponse.token.isNullOrEmpty()) {
                         val token = loginResponse.token
 
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
@@ -71,10 +71,14 @@ class LoginActivity : AppCompatActivity() {
                             apply()
                         }
 
+                        Toast.makeText(this@LoginActivity, "Login berhasil!", Toast.LENGTH_SHORT).show()
+
                         fetchUserProfile(token)
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Login gagal: Token tidak ditemukan", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    val errorMessage = response.message()
+                    val errorMessage = response.errorBody()?.string() ?: "Kesalahan tidak diketahui"
                     Toast.makeText(this@LoginActivity, "Login gagal: $errorMessage", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -86,33 +90,36 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+
     private fun fetchUserProfile(token: String) {
-        val client = ApiConfig.instance.getUserProfile(token)
+        val client = ApiConfig.instance.getUserProfile("Bearer $token")
         client.enqueue(object : Callback<ProfileResponse> {
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
                 if (response.isSuccessful) {
                     val profileResponse = response.body()
                     if (profileResponse != null) {
                         val userName = profileResponse.user?.name
-                        val userId = profileResponse.user?.id // Pastikan atribut ini sesuai dengan respons API
+                        val userId = profileResponse.user?.id
 
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
                             putString("USER_NAME", userName)
-                            putInt("USER_ID", userId ?: 0) // Simpan ID pengguna
+                            putInt("USER_ID", userId ?: 0)
                             apply()
                         }
 
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Gagal memuat profil pengguna", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Gagal mengambil profil pengguna", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Gagal memuat profil pengguna: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Gagal mengambil profil pengguna: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginActivity, "Gagal memuat profil pengguna: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
