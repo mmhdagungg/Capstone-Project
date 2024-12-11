@@ -33,7 +33,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val artikelList = ArrayList<Artikel>()
 
-    private var userId: String? = null
+    private var userId: Int? = null
+    private var userName: String? = null
+    private var token: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,23 +52,48 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        val userId = sharedPref.getInt("USER_ID", 0)
-        val token = sharedPref.getString("TOKEN", null)
-        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+        userId = sharedPref.getInt("USER_ID", 0)
+        token = sharedPref.getString("TOKEN", null)
 
+        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
         binding.dateText.text = currentDate
 
-        if (!token.isNullOrEmpty()) {
-            loadUserProfile(token) { profileFetched ->
-                if (profileFetched && userId != 0) {
-                    loadDashboardData(token, userId.toString(), currentDate)
-                } else {
-                    Toast.makeText(requireContext(), "ID Pengguna tidak ditemukan.", Toast.LENGTH_SHORT).show()
-                }
-            }
+        // Memanggil API untuk mendapatkan data nama pengguna
+        if (!token.isNullOrEmpty() && userId != 0) {
+            getUserProfileData(token!!)
         } else {
             binding.tvMenyapa.text = getString(R.string.greeting_text, "User")
         }
+
+        if (!token.isNullOrEmpty() && userId != 0) {
+            loadDashboardData(token!!, userId!!, currentDate)
+        } else {
+            Toast.makeText(requireContext(), "Data pengguna tidak valid, silakan login kembali.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getUserProfileData(token: String) {
+        ApiConfig.instance.getUserProfile(token).enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(
+                call: Call<ProfileResponse>,
+                response: Response<ProfileResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val profileData = response.body()
+                    // Mengambil nama dari response dan memperbarui UI
+                    userName = profileData?.user?.name ?: "User"
+                    binding.tvMenyapa.text = getString(R.string.greeting_text, userName)
+                } else {
+                    Log.e("ProfileData", "Error: ${response.message()}")
+                    binding.tvMenyapa.text = getString(R.string.greeting_text, "User")
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                Log.e("ProfileData", "Failure: ${t.message}")
+                binding.tvMenyapa.text = getString(R.string.greeting_text, "User")
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -95,30 +122,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadUserProfile(token: String, callback: (Boolean) -> Unit) {
-        ApiConfig.instance.getUserProfile(token).enqueue(object : Callback<ProfileResponse> {
-            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
-                if (response.isSuccessful) {
-                    response.body()?.user?.let { profile ->
-                        userId = profile.id.toString()
-                        binding.tvMenyapa.text = getString(R.string.greeting_text, profile.name ?: "User")
-                        callback(true)
-                    } ?: callback(false)
-                } else {
-                    Log.e("UserProfile", "Error: ${response.message()}")
-                    callback(false)
-                }
-            }
-
-            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                Log.e("UserProfile", "Failure: ${t.message}")
-                callback(false)
-            }
-        })
-    }
-
-    private fun loadDashboardData(token: String, userId: String, dateTime: String) {
-        ApiConfig.instance.getDashboardData(token, userId.toInt(), dateTime)
+    private fun loadDashboardData(token: String, userId: Int, dateTime: String) {
+        ApiConfig.instance.getDashboardData(token, userId, dateTime)
             .enqueue(object : Callback<DashboardResponse> {
                 override fun onResponse(
                     call: Call<DashboardResponse>,
