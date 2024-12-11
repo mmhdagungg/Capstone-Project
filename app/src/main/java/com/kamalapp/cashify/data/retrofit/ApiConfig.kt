@@ -1,5 +1,7 @@
 package com.kamalapp.cashify.data.retrofit
 
+import android.content.Context
+import com.kamalapp.cashify.MyApplication
 import com.kamalapp.cashify.data.retrofit.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,8 +18,21 @@ object ApiConfig {
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .build()
+        .addInterceptor { chain ->
+            val sharedPref = MyApplication.context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            val token = sharedPref.getString("TOKEN", null)
 
+            val request = if (token != null) {
+                chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+            } else {
+                chain.request()
+            }
+
+            chain.proceed(request)
+        }
+        .build()
     val instance: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)

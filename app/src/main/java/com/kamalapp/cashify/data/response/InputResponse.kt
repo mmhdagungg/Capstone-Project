@@ -12,12 +12,12 @@ data class InputResponse(
 )
 
 data class InputData(
-	val labaKotor: String,
-	val bayarGaji: String,
-	val bayarAir: String,
-	val biayaListrik: String,
-	val biayaTransport: String,
-	val biayaPromosi: String,
-	val biayaPackaging: String,
-	val biayaPajak: String
+	val labaKotor: Int,
+	val bayarGaji: Int,
+	val bayarAir: Int,
+	val biayaListrik: Int,
+	val biayaTransport: Int,
+	val biayaPromosi: Int,
+	val biayaPackaging: Int,
+	val biayaPajak: Int
 )
