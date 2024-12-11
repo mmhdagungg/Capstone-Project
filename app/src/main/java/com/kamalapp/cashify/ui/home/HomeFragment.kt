@@ -33,9 +33,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val artikelList = ArrayList<Artikel>()
 
-    private var userId: Int? = null
     private var userName: String? = null
-    private var token: String? = null
+    private var cachedDashboardData: DashboardResponse? = null // Cache dashboard data
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,24 +50,37 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+
+        setLoadingPlaceholder()
+
         val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        userId = sharedPref.getInt("USER_ID", 0)
-        token = sharedPref.getString("TOKEN", null)
+        val userId = sharedPref.getInt("USER_ID", 0)
+        val token = sharedPref.getString("TOKEN", null)
 
-        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-        binding.dateText.text = currentDate
+        val currentMonthYear = LocalDate.now().format(DateTimeFormatter.ofPattern("MM-yyyy"))
+        binding.dateText.text = currentMonthYear
 
-        // Memanggil API untuk mendapatkan data nama pengguna
         if (!token.isNullOrEmpty() && userId != 0) {
-            getUserProfileData(token!!)
+            getUserProfileData(token)
+
+            if (cachedDashboardData != null) {
+                updateDashboardUI(cachedDashboardData!!)
+            } else {
+                loadDashboardData(token, userId, currentMonthYear)
+            }
         } else {
             binding.tvMenyapa.text = getString(R.string.greeting_text, "User")
-        }
-
-        if (!token.isNullOrEmpty() && userId != 0) {
-            loadDashboardData(token!!, userId!!, currentDate)
-        } else {
             Toast.makeText(requireContext(), "Data pengguna tidak valid, silakan login kembali.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setLoadingPlaceholder() {
+        _binding?.apply {
+            tvRevenue.text = "..."
+            tvExpenses.text = "..."
+            tvNetBalance.text = "..."
+            tvNetMargin.text = "..."
+            tvHasilPrediksi.text = "..."
         }
     }
 
@@ -80,7 +92,6 @@ class HomeFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     val profileData = response.body()
-                    // Mengambil nama dari response dan memperbarui UI
                     userName = profileData?.user?.name ?: "User"
                     binding.tvMenyapa.text = getString(R.string.greeting_text, userName)
                 } else {
@@ -129,8 +140,11 @@ class HomeFragment : Fragment() {
                     call: Call<DashboardResponse>,
                     response: Response<DashboardResponse>
                 ) {
+                    if (!isAdded || _binding == null) return
+
                     if (response.isSuccessful) {
                         response.body()?.let { dashboardData ->
+                            cachedDashboardData = dashboardData // Cache data
                             updateDashboardUI(dashboardData)
                         } ?: setDefaultDashboardValues()
                     } else {
@@ -147,19 +161,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateDashboardUI(data: DashboardResponse) {
-        binding.tvRevenue.text = formatCurrency(data.revenue ?: 0)
-        binding.tvExpenses.text = formatCurrency(data.expenses ?: 0)
-        binding.tvNetBalance.text = formatCurrency(data.netBalance ?: 0)
-        binding.tvNetMargin.text = formatPercentage(data.netMargin ?: 0)
-        binding.tvHasilPrediksi.text = data.hasilPrediksi ?: "Tidak ada prediksi"
+        _binding?.apply {
+            tvRevenue.text = formatCurrency(data.revenue ?: 0)
+            tvExpenses.text = formatCurrency(data.expenses ?: 0)
+            tvNetBalance.text = formatCurrency(data.netBalance ?: 0)
+            tvNetMargin.text = formatPercentage(data.netMargin ?: 0)
+            tvHasilPrediksi.text = data.hasilPrediksi ?: "Tidak ada prediksi"
+        }
     }
 
     private fun setDefaultDashboardValues() {
-        binding.tvRevenue.text = formatCurrency(0)
-        binding.tvExpenses.text = formatCurrency(0)
-        binding.tvNetBalance.text = formatCurrency(0)
-        binding.tvNetMargin.text = formatPercentage(0)
-        binding.tvHasilPrediksi.text = "Data tidak tersedia"
+        _binding?.apply {
+            tvRevenue.text = formatCurrency(0)
+            tvExpenses.text = formatCurrency(0)
+            tvNetBalance.text = formatCurrency(0)
+            tvNetMargin.text = formatPercentage(0)
+            tvHasilPrediksi.text = "Data tidak tersedia"
+        }
     }
 
     private fun formatCurrency(value: Int): String {

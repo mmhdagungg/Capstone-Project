@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun fetchUserProfile(token: String) {
-        val client = ApiConfig.instance.getUserProfile("Bearer $token")
+        val client = ApiConfig.instance.getUserProfile(token)
         client.enqueue(object : Callback<ProfileResponse> {
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
                 if (response.isSuccessful) {
