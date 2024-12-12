@@ -13,9 +13,9 @@ import com.kamalapp.cashify.data.HistoryItem
 class HistoryAdapter(
     private var items: List<HistoryItem>,
     private val onItemClick: (HistoryItem) -> Unit
-) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_title)
         val date: TextView = itemView.findViewById(R.id.tv_date)
         val icon: ImageView = itemView.findViewById(R.id.iv_icon)
@@ -28,15 +28,12 @@ class HistoryAdapter(
         }
     }
 
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_history, parent, false)
-        return HistoryViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
     }
 
@@ -44,7 +41,6 @@ class HistoryAdapter(
 
     fun updateData(newItems: List<HistoryItem>) {
         items = newItems
-        Log.d("HistoryAdapter", "New items: $newItems") // Tambahkan log untuk memeriksa item
         notifyDataSetChanged()
     }
 }

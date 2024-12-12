@@ -11,6 +11,24 @@
     <string name="judul">judul</string>
     <string name="error_password">Password tidak boleh kurang dari 8 karakter</string>
     <string name="greeting_text">Hi, %1$s!</string>
+    <string name="kosong">Data keuanganmu masih kosong, silahkan tambah data keuanganmu untuk memulai</string>
+        <string name="prediction_low_margin">
+        Net margin kamu di bawah standar. Perhatikan biaya dan harga produk. Coba kurangi biaya operasional, atau evaluasi ulang strategi harga untuk meningkatkan margin.
+    </string>
+        <string name="prediction_mid_margin">
+        Net margin masih aman, namun ada ruang untuk perbaikan. Evaluasi biaya dan cari peluang untuk meningkatkan pendapatan, seperti dengan promo atau produk baru.
+    </string>
+        <string name="prediction_good_margin">
+        Net margin kamu baik, pertahankan dengan optimalkan operasional. Pertimbangkan untuk memperluas pasar atau meningkatkan volume penjualan untuk hasil yang lebih baik.
+    </string>
+        <string name="prediction_stable_margin">
+        Net margin stabil dan aman. Pertahankan dengan efisiensi operasional dan tingkatkan produktivitas dengan investasi pada teknologi atau pelatihan.
+    </string>
+        <string name="prediction_high_margin">
+        Net margin luar biasa! Bisnis kamu sangat menguntungkan. Pertimbangkan ekspansi atau diversifikasi produk untuk memanfaatkan potensi pasar lebih besar.
+    </string>
+        <string name="prediction_no_data">Data tidak tersedia. Pastikan pengaturan atau koneksi data kamu benar dan coba lagi.</string>
+
 
 
     <string-array name="judul_artikel">

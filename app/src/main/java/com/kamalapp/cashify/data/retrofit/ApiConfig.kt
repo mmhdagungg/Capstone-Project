@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
 
-    private const val BASE_URL = "https://cashifydock-166755984338.asia-southeast2.run.app/"
+    private const val BASE_URL = "https://api-cc-166755984338.asia-southeast2.run.app"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -29,7 +29,6 @@ object ApiConfig {
             } else {
                 chain.request()
             }
-
             chain.proceed(request)
         }
         .build()

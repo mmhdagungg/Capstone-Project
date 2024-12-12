@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -66,6 +69,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11-11-2024"
@@ -90,7 +94,7 @@
             app:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 android:layout_marginEnd="11dp"
@@ -117,14 +121,14 @@
                         android:id="@+id/tvlaba"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
+
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 app:layout_columnWeight="1"
@@ -150,7 +154,7 @@
                         android:id="@+id/tvGaji"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
+
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
@@ -174,7 +178,7 @@
             app:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 android:layout_marginEnd="11dp"
@@ -201,14 +205,14 @@
                         android:id="@+id/tvAir"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
+
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 app:layout_columnWeight="1"
@@ -234,7 +238,7 @@
                         android:id="@+id/tvListrik"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
+
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
@@ -258,7 +262,7 @@
             app:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 android:layout_marginEnd="11dp"
@@ -285,14 +289,13 @@
                         android:id="@+id/tvTransport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 app:layout_columnWeight="1"
@@ -318,7 +321,6 @@
                         android:id="@+id/tvPromosi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
@@ -342,7 +344,7 @@
             app:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 android:layout_marginEnd="11dp"
@@ -369,14 +371,13 @@
                         android:id="@+id/tvPackaging"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/navy_muda"
                 app:layout_columnWeight="1"
@@ -402,7 +403,6 @@
                         android:id="@+id/tvPajak"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp00.000.000"
                         android:textColor="@android:color/white"
                         android:textSize="19sp" />
                 </LinearLayout>
@@ -412,6 +412,7 @@
 
 
     <TextView
+        android:id="@+id/tvPrediksi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget facilisis ligula..."
@@ -421,3 +422,4 @@
         android:gravity="center"/>
 
 </LinearLayout>
+</ScrollView>

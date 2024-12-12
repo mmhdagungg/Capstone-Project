@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="#354259"
-        android:text="Update Profile"
+        android:text="Edit Username"
         android:textColor="#FFFFFF"
         android:textAllCaps="false" />
 

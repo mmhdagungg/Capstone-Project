@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kamalapp.cashify.MainActivity
@@ -14,6 +15,7 @@ import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.response.LoginResponse
 import com.kamalapp.cashify.data.response.ProfileResponse
 import com.kamalapp.cashify.data.retrofit.ApiConfig
+import com.kamalapp.cashify.ui.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,10 +26,20 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var tvRegister: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        tvRegister = findViewById(R.id.tvDontHaveAccount)
+
+        tvRegister.setOnClickListener(
+            View.OnClickListener {
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+            }
+        )
 
         progressBar = findViewById(R.id.progressBar)
         btnLogin = findViewById(R.id.loginButton)
@@ -101,13 +113,16 @@ class LoginActivity : AppCompatActivity() {
                         val userName = profileResponse.user?.name
                         val userId = profileResponse.user?.id
 
+                        // Save user info in shared preferences after login is successful
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
                             putString("USER_NAME", userName)
-                            putInt("USER_ID", userId ?: 0)
+                            putInt("USER_ID", userId ?: 0) // If userId is null, store 0
+                            putString("TOKEN", token)
                             apply()
                         }
 
+                        // Navigate to MainActivity
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()
                     } else {
@@ -123,6 +138,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 
 
     private fun showLoading(isLoading: Boolean) {

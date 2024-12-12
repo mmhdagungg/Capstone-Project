@@ -69,7 +69,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val profile = response.body()?.user
                     if (profile != null) {
-                        edUpdateNama.setText(token)  // Mengisi kolom dengan nama pengguna
+                        edUpdateNama.setText(profile.name)
                     }
                 } else {
                     Toast.makeText(this@UpdateProfileActivity, "Gagal memuat profil", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,5 @@
 package com.kamalapp.cashify.ui.insert
 
-import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.response.InputData
 import com.kamalapp.cashify.databinding.FragmentInsertBinding
 
@@ -33,7 +34,6 @@ class InsertFragment : Fragment() {
             requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         val userId = sharedPref.getInt("USER_ID", 0)
         val token = sharedPref.getString("TOKEN", null)
-
 
         binding.btnGenerate.setOnClickListener {
             try {
@@ -63,20 +63,21 @@ class InsertFragment : Fragment() {
                 )
                 Log.d("InsertFragment", "Data yang akan dikirim: $inputData")
 
-
                 val insertViewModel = ViewModelProvider(this)[InsertViewModel::class.java]
                 insertViewModel.inputData(token, userId, inputData)
-
                 insertViewModel.responseMessage.observe(viewLifecycleOwner) { message ->
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    if (message.contains("berhasil", ignoreCase = true)) {
+                        findNavController().navigate(R.id.action_insertFragment_to_homeFragment)
+                    }
                 }
+
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Input tidak valid. Pastikan semua nilai adalah angka.", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

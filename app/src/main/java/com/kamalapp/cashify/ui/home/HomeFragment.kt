@@ -57,8 +57,9 @@ class HomeFragment : Fragment() {
         val userId = sharedPref.getInt("USER_ID", 0)
         val token = sharedPref.getString("TOKEN", null)
 
+        val currentMonthYearTV = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM yyyy"))
         val currentMonthYear = LocalDate.now().format(DateTimeFormatter.ofPattern("MM-yyyy"))
-        binding.dateText.text = currentMonthYear
+        binding.dateText.text = currentMonthYearTV
 
         if (!token.isNullOrEmpty() && userId != 0) {
             getUserProfileData(token)
@@ -159,23 +160,86 @@ class HomeFragment : Fragment() {
                 }
             })
     }
-
     private fun updateDashboardUI(data: DashboardResponse) {
         _binding?.apply {
-            tvRevenue.text = formatCurrency(data.revenue ?: 0)
-            tvExpenses.text = formatCurrency(data.expenses ?: 0)
+            val revenue = data.revenue ?: 0
+            val expenses = data.expenses ?: 0
+
+            // Menghitung netMargin
+            val netMargin = if (revenue > 0) {
+                ((revenue - expenses).toDouble() / revenue * 100)
+            } else {
+                0.0 // Menghindari pembagian dengan nol
+            }
+
+            tvRevenue.text = formatCurrency(revenue)
+            tvExpenses.text = formatCurrency(expenses)
             tvNetBalance.text = formatCurrency(data.netBalance ?: 0)
-            tvNetMargin.text = formatPercentage(data.netMargin ?: 0)
-            tvHasilPrediksi.text = data.hasilPrediksi ?: "Tidak ada prediksi"
+            tvNetMargin.text = formatPercentage(netMargin)
+
+            // Menampilkan hasil prediksi dan artikel berdasarkan nilai netMargin
+            tvHasilPrediksi.text = getPredictionTextBasedOnNetMargin(netMargin)
+            displayArticlesBasedOnNetMargin(netMargin)
         }
     }
+
+    private fun getPredictionTextBasedOnNetMargin(netMargin: Double): String {
+        return when {
+            netMargin == 0.0 -> {
+                getString(R.string.kosong)
+            }
+            netMargin in 0.1..10.0 -> {
+                getString(R.string.prediction_low_margin)
+            }
+            netMargin in 10.0..15.0 -> {
+                getString(R.string.prediction_mid_margin)
+            }
+            netMargin in 15.0..20.0 -> {
+                getString(R.string.prediction_good_margin)
+            }
+            netMargin in 20.0..30.0 -> {
+                getString(R.string.prediction_stable_margin)
+            }
+            netMargin > 30 -> {
+                getString(R.string.prediction_high_margin)
+            }
+            else -> {
+                getString(R.string.prediction_no_data)
+            }
+        }
+    }
+
+
+
+    private fun displayArticlesBasedOnNetMargin(netMargin: Double) {
+        val filteredArticles = if (netMargin > 30) {
+            artikelList.filter { it.kategori == "Keuangan Sehat" }
+        } else {
+            artikelList.filter { it.kategori == "Keuangan Kurang Sehat" }
+        }
+
+        // Update RecyclerView dengan artikel yang difilter
+        val listArtikelAdapter = ListArtikelAdapter(ArrayList(filteredArticles))
+        listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Artikel) {
+                val intent = Intent(requireContext(), ArtikelActivity::class.java).apply {
+                    putExtra("URL", data.link)
+                }
+                startActivity(intent)
+            }
+        })
+
+        binding.rvArticles.adapter = listArtikelAdapter
+    }
+
+
 
     private fun setDefaultDashboardValues() {
         _binding?.apply {
             tvRevenue.text = formatCurrency(0)
             tvExpenses.text = formatCurrency(0)
             tvNetBalance.text = formatCurrency(0)
-            tvNetMargin.text = formatPercentage(0)
+            tvNetMargin.text = formatPercentage(0.0)
             tvHasilPrediksi.text = "Data tidak tersedia"
         }
     }
@@ -184,9 +248,10 @@ class HomeFragment : Fragment() {
         return String.format("Rp %,d", value).replace(",", ".")
     }
 
-    private fun formatPercentage(value: Int): String {
-        return "$value%"
+    private fun formatPercentage(value: Double): String {
+        return String.format("%.1f%%", value) // Format dengan 1 angka di belakang koma
     }
+
 
     private fun getArtikelList(): ArrayList<Artikel> {
         val judulArray = resources.getStringArray(R.array.judul_artikel)
