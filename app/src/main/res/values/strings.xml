@@ -28,7 +28,8 @@
         Net margin luar biasa! Bisnis kamu sangat menguntungkan. Pertimbangkan ekspansi atau diversifikasi produk untuk memanfaatkan potensi pasar lebih besar.
     </string>
         <string name="prediction_no_data">Data tidak tersedia. Pastikan pengaturan atau koneksi data kamu benar dan coba lagi.</string>
-
+    <string name="already_have_an_account_log_in"><![CDATA[Already have an account? <b>Log in<b>]]></string>
+    <string name="don_t_have_an_account_yet_register"><![CDATA[Don\'t have an account yet? <b>Register<b>]]></string>
 
 
     <string-array name="judul_artikel">

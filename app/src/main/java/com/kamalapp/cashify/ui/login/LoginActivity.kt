@@ -3,6 +3,7 @@ package com.kamalapp.cashify.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -33,6 +34,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         tvRegister = findViewById(R.id.tvDontHaveAccount)
+        val text = getString(R.string.don_t_have_an_account_yet_register)
+        tvRegister.text = Html.fromHtml(text)
+
 
         tvRegister.setOnClickListener(
             View.OnClickListener {

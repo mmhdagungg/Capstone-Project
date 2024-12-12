@@ -2,6 +2,7 @@ package com.kamalapp.cashify.ui.welcome
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +21,8 @@ class WelcomeActivity : AppCompatActivity() {
 
         val btnMulai = findViewById<Button>(R.id.btnMulai)
         val tvHaveAccount = findViewById<TextView>(R.id.tvHaveAccount)
+        val text = getString(R.string.already_have_an_account_log_in)
+        tvHaveAccount.text = Html.fromHtml(text)
 
         btnMulai.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))

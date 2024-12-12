@@ -2,6 +2,7 @@ package com.kamalapp.cashify.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -26,6 +27,9 @@ class RegisterActivity : AppCompatActivity() {
         val passwordField = findViewById<TextInputEditText>(R.id.edPassword)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
         val tvHaveAccount = findViewById<TextView>(R.id.tvHaveAccount)
+
+        val text = getString(R.string.already_have_an_account_log_in)
+        tvHaveAccount.text = Html.fromHtml(text)
 
         btnRegister.setOnClickListener {
             val name = nameField.text.toString().trim()
