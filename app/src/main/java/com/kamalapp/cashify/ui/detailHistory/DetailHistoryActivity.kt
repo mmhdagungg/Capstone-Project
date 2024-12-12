@@ -7,6 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kamalapp.cashify.R
+import java.text.NumberFormat
+import java.util.Locale
 
 class DetailHistoryActivity : AppCompatActivity() {
 
@@ -54,7 +56,8 @@ class DetailHistoryActivity : AppCompatActivity() {
         val biayaPajak = intent.getIntExtra("biayaPajak", 0)
         val date = intent.getStringExtra("date")
 
-
+        // Format angka dengan awalan Rp
+        val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
 
         val netMargin = if (labaKotor > 0) {
             ((labaKotor - bayarGaji - bayarAir - biayaListrik - biayaTransport - biayaPromosi - biayaPackaging - biayaPajak).toDouble() / labaKotor * 100)
@@ -63,21 +66,18 @@ class DetailHistoryActivity : AppCompatActivity() {
         }
         val netMarginFormatted = String.format("%.1f%%", netMargin)
 
-        tvLaba.text = labaKotor.toString()
-        tvGaji.text = bayarGaji.toString()
-        tvAir.text = bayarAir.toString()
-        tvListrik.text = biayaListrik.toString()
-        tvTransport.text = biayaTransport.toString()
-        tvPromosi.text = biayaPromosi.toString()
-        tvPackaging.text = biayaPackaging.toString()
-        tvPajak.text = biayaPajak.toString()
+        // Set data ke TextView dengan format Rp
+        tvLaba.text = currencyFormatter.format(labaKotor)
+        tvGaji.text = currencyFormatter.format(bayarGaji)
+        tvAir.text = currencyFormatter.format(bayarAir)
+        tvListrik.text = currencyFormatter.format(biayaListrik)
+        tvTransport.text = currencyFormatter.format(biayaTransport)
+        tvPromosi.text = currencyFormatter.format(biayaPromosi)
+        tvPackaging.text = currencyFormatter.format(biayaPackaging)
+        tvPajak.text = currencyFormatter.format(biayaPajak)
         tvDate.text = date
-
         tvPrediksi.text = "Net Margin kamu pada data ini mencapai $netMarginFormatted"
-
-
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

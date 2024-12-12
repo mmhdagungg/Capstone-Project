@@ -1,6 +1,7 @@
 package com.kamalapp.cashify
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kamalapp.cashify.databinding.ActivityMainBinding
+import com.kamalapp.cashify.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,9 +31,11 @@ class MainActivity : AppCompatActivity() {
         token = sharedPref.getString("TOKEN", null)
         userName = sharedPref.getString("USER_NAME", null)
 
-        // Check if the user is logged in (token and userId should not be null or empty)
         if (token.isNullOrEmpty() || userId == 0) {
-            Toast.makeText(this, "Data tidak ditemukan, silakan login kembali.", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Data tidak ditemukan, silakan login kembali.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java) // Arahkan ke LoginActivity
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
             finish()
             return
         }
@@ -42,9 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
-
-        // Optionally display the user data or do something with the values
-        Toast.makeText(this, "User ID: $userId\nToken: $token", Toast.LENGTH_SHORT).show()
+//
+//        Toast.makeText(this, "User ID: $userId\nToken: $token", Toast.LENGTH_SHORT).show()
     }
 }
 

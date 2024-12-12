@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.data.response.InputData
 import com.kamalapp.cashify.databinding.FragmentInsertBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class InsertFragment : Fragment() {
 
@@ -30,10 +32,21 @@ class InsertFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPref =
-            requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
         val userId = sharedPref.getInt("USER_ID", 0)
         val token = sharedPref.getString("TOKEN", null)
+        val lastInputDate = sharedPref.getString("LAST_INPUT_DATE", null)
+
+        // Get today's date
+        val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+        // Check if user already input data today
+        if (lastInputDate == todayDate) {
+            Toast.makeText(requireContext(), "Anda sudah input data hari ini.", Toast.LENGTH_SHORT).show()
+            binding.btnGenerate.isEnabled = false
+            return
+        }
 
         binding.btnGenerate.setOnClickListener {
             try {
@@ -68,6 +81,8 @@ class InsertFragment : Fragment() {
                 insertViewModel.responseMessage.observe(viewLifecycleOwner) { message ->
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     if (message.contains("berhasil", ignoreCase = true)) {
+                        // Save today's date to SharedPreferences
+                        editor.putString("LAST_INPUT_DATE", todayDate).apply()
                         findNavController().navigate(R.id.action_insertFragment_to_homeFragment)
                     }
                 }

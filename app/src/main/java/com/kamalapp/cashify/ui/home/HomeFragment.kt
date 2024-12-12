@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
             tvExpenses.text = "..."
             tvNetBalance.text = "..."
             tvNetMargin.text = "..."
-            tvHasilPrediksi.text = "..."
+            tvHasilPrediksi.text = "Sedang Memuat Data"
         }
     }
 
@@ -188,7 +188,7 @@ class HomeFragment : Fragment() {
             netMargin == 0.0 -> {
                 getString(R.string.kosong)
             }
-            netMargin in 0.1..10.0 -> {
+            netMargin < 10.0 -> {
                 getString(R.string.prediction_low_margin)
             }
             netMargin in 10.0..15.0 -> {
@@ -212,13 +212,18 @@ class HomeFragment : Fragment() {
 
 
     private fun displayArticlesBasedOnNetMargin(netMargin: Double) {
-        val filteredArticles = if (netMargin > 30) {
-            artikelList.filter { it.kategori == "Keuangan Sehat" }
-        } else {
-            artikelList.filter { it.kategori == "Keuangan Kurang Sehat" }
+        val filteredArticles = when {
+            netMargin > 30 -> {
+                artikelList.filter { it.kategori == "Keuangan Sehat" }
+            }
+            netMargin == 0.0 -> {
+                artikelList.filter { it.kategori == "Masih Kosong"}
+            }
+            else -> {
+                artikelList.filter { it.kategori == "Keuangan Kurang Sehat" }
+            }
         }
 
-        // Update RecyclerView dengan artikel yang difilter
         val listArtikelAdapter = ListArtikelAdapter(ArrayList(filteredArticles))
         listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Artikel) {
@@ -231,6 +236,7 @@ class HomeFragment : Fragment() {
 
         binding.rvArticles.adapter = listArtikelAdapter
     }
+
 
 
 
