@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
     private val artikelList = ArrayList<Artikel>()
 
     private var userName: String? = null
-    private var cachedDashboardData: DashboardResponse? = null // Cache dashboard data
+    private var cachedDashboardData: DashboardResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,7 +73,12 @@ class HomeFragment : Fragment() {
             binding.tvMenyapa.text = getString(R.string.greeting_text, "User")
             Toast.makeText(requireContext(), "Data pengguna tidak valid, silakan login kembali.", Toast.LENGTH_SHORT).show()
         }
+
+        artikelList.clear()
+        artikelList.addAll(getArtikelList())
+        binding.rvArticles.adapter?.notifyDataSetChanged()
     }
+
 
     private fun setLoadingPlaceholder() {
         _binding?.apply {
@@ -109,8 +114,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        artikelList.addAll(getArtikelList())
-
         val listArtikelAdapter = ListArtikelAdapter(artikelList)
         listArtikelAdapter.setOnItemClickCallback(object : ListArtikelAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Artikel) {
@@ -126,7 +129,13 @@ class HomeFragment : Fragment() {
             adapter = listArtikelAdapter
             setHasFixedSize(true)
         }
+
+
+        artikelList.clear()
+        artikelList.addAll(getArtikelList())
+        listArtikelAdapter.notifyDataSetChanged()
     }
+
 
     private fun setupListeners() {
         binding.ivProfile.setOnClickListener {
@@ -145,7 +154,7 @@ class HomeFragment : Fragment() {
 
                     if (response.isSuccessful) {
                         response.body()?.let { dashboardData ->
-                            cachedDashboardData = dashboardData // Cache data
+                            cachedDashboardData = dashboardData
                             updateDashboardUI(dashboardData)
                         } ?: setDefaultDashboardValues()
                     } else {
@@ -165,11 +174,11 @@ class HomeFragment : Fragment() {
             val revenue = data.revenue ?: 0
             val expenses = data.expenses ?: 0
 
-            // Menghitung netMargin
+
             val netMargin = if (revenue > 0) {
                 ((revenue - expenses).toDouble() / revenue * 100)
             } else {
-                0.0 // Menghindari pembagian dengan nol
+                0.0
             }
 
             tvRevenue.text = formatCurrency(revenue)
@@ -177,7 +186,6 @@ class HomeFragment : Fragment() {
             tvNetBalance.text = formatCurrency(data.netBalance ?: 0)
             tvNetMargin.text = formatPercentage(netMargin)
 
-            // Menampilkan hasil prediksi dan artikel berdasarkan nilai netMargin
             tvHasilPrediksi.text = getPredictionTextBasedOnNetMargin(netMargin)
             displayArticlesBasedOnNetMargin(netMargin)
         }
@@ -255,7 +263,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun formatPercentage(value: Double): String {
-        return String.format("%.1f%%", value) // Format dengan 1 angka di belakang koma
+        return String.format("%.1f%%", value) 
     }
 
 
@@ -268,19 +276,21 @@ class HomeFragment : Fragment() {
 
         val listArtikel = ArrayList<Artikel>()
         for (i in judulArray.indices) {
-            listArtikel.add(
-                Artikel(
-                    judul = judulArray[i],
-                    deskripsi = deskripsiArray[i],
-                    gambar = gambarArray.getResourceId(i, -1),
-                    kategori = kategoriArray[i],
-                    link = linkArray[i]
-                )
+            val artikel = Artikel(
+                judul = judulArray[i],
+                deskripsi = deskripsiArray[i],
+                gambar = gambarArray.getResourceId(i, -1),
+                kategori = kategoriArray[i],
+                link = linkArray[i]
             )
+            if (!listArtikel.contains(artikel)) {
+                listArtikel.add(artikel)
+            }
         }
         gambarArray.recycle()
         return listArtikel
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

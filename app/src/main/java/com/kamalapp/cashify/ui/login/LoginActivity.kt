@@ -2,14 +2,14 @@ package com.kamalapp.cashify.ui.login
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.Editable
 import android.text.Html
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.kamalapp.cashify.MainActivity
 import com.kamalapp.cashify.R
@@ -17,6 +17,8 @@ import com.kamalapp.cashify.data.response.LoginResponse
 import com.kamalapp.cashify.data.response.ProfileResponse
 import com.kamalapp.cashify.data.retrofit.ApiConfig
 import com.kamalapp.cashify.ui.register.RegisterActivity
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,8 +27,10 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var btnLogin: Button
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
+    private lateinit var emailLayout: TextInputLayout
+    private lateinit var passwordLayout: TextInputLayout
+    private lateinit var emailEditText: TextInputEditText
+    private lateinit var passwordEditText: TextInputEditText
     private lateinit var tvRegister: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,30 +41,77 @@ class LoginActivity : AppCompatActivity() {
         val text = getString(R.string.don_t_have_an_account_yet_register)
         tvRegister.text = Html.fromHtml(text)
 
-
-        tvRegister.setOnClickListener(
-            View.OnClickListener {
-                val intent = Intent(this, RegisterActivity::class.java)
-                startActivity(intent)
-            }
-        )
+        tvRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
 
         progressBar = findViewById(R.id.progressBar)
         btnLogin = findViewById(R.id.loginButton)
+        emailLayout = findViewById(R.id.edEmailLayout)
+        passwordLayout = findViewById(R.id.edPasswordLayout)
         emailEditText = findViewById(R.id.ed_login_email)
         passwordEditText = findViewById(R.id.edPassword)
+        val colorStateList = ColorStateList.valueOf(resources.getColor(R.color.red, null))
+        passwordLayout.setHelperTextColor(colorStateList)
+        emailLayout.setHelperTextColor(colorStateList)
+
+        emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val email = s.toString().trim()
+                if (!isValidEmail(email)) {
+                    emailLayout.helperText = "Silakan masukkan email yang valid"
+                } else {
+                    emailLayout.helperText = null
+                }
+            }
+        })
+
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val password = s.toString().trim()
+                if (!isValidPassword(password)) {
+                    passwordLayout.helperText = "Password harus minimal 8 karakter"
+                } else {
+                    passwordLayout.helperText = null
+                }
+            }
+        })
 
         btnLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Email dan password tidak boleh kosong", Toast.LENGTH_SHORT).show()
+            if (!isValidEmail(email)) {
+                emailLayout.helperText = "Silakan masukkan email yang valid"
+                Toast.makeText(this, "Email tidak valid, silakan periksa kembali.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            } else {
+                emailLayout.helperText = null
+            }
+
+            if (!isValidPassword(password)) {
+                passwordLayout.helperText = "Password harus minimal 8 karakter"
+                Toast.makeText(this, "Password tidak valid, minimal 8 karakter.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            } else {
+                passwordLayout.helperText = null
             }
 
             loginUser(email, password)
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        return password.length >= 8
     }
 
     private fun loginUser(email: String, password: String) {
@@ -106,7 +157,6 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-
     private fun fetchUserProfile(token: String) {
         val client = ApiConfig.instance.getUserProfile(token)
         client.enqueue(object : Callback<ProfileResponse> {
@@ -117,16 +167,14 @@ class LoginActivity : AppCompatActivity() {
                         val userName = profileResponse.user?.name
                         val userId = profileResponse.user?.id
 
-                        // Save user info in shared preferences after login is successful
                         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
                         with(sharedPref.edit()) {
                             putString("USER_NAME", userName)
-                            putInt("USER_ID", userId ?: 0) // If userId is null, store 0
+                            putInt("USER_ID", userId ?: 0)
                             putString("TOKEN", token)
                             apply()
                         }
 
-                        // Navigate to MainActivity
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()
                     } else {
@@ -142,8 +190,6 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
-
-
 
     private fun showLoading(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

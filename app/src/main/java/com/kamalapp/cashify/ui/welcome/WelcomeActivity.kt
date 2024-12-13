@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.text.Html
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.kamalapp.cashify.R
 import com.kamalapp.cashify.ui.login.LoginActivity
 import com.kamalapp.cashify.ui.register.RegisterActivity

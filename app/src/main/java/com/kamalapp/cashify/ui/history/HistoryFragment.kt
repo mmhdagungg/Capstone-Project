@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +61,7 @@ class HistoryFragment : Fragment() {
         val userId = sharedPref.getInt("USER_ID", 0)
         val token = sharedPref.getString("TOKEN", null)
 
-        // Atur default tanggal ke bulan dan tahun saat ini
+
         val currentDate = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MM-yyyy", Locale.getDefault())
         val formattedDate = dateFormat.format(currentDate.time)
@@ -72,7 +73,7 @@ class HistoryFragment : Fragment() {
             DatePickerDialog(
                 requireContext(),
                 { _, year, month, _ ->
-                    // Set bulan dan tahun yang dipilih, tidak ada tanggal
+
                     calendar.set(year, month, 1)
                     val newFormattedDate = dateFormat.format(calendar.time)
                     binding.edTanggal.setText(
@@ -84,7 +85,7 @@ class HistoryFragment : Fragment() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).apply {
-                // Sembunyikan tampilan pemilihan hari
+
                 datePicker.findViewById<View>(resources.getIdentifier("android:id/day", null, null))?.visibility = View.GONE
             }.show()
         }
@@ -99,16 +100,16 @@ class HistoryFragment : Fragment() {
         token?.let {
             viewModel.getHistory(it, userId, dateTime ?: "").observe(viewLifecycleOwner) { response ->
                 val mappedItems = response?.data?.map { historyData ->
-                    // Format date to dd-MM-yyyy
                     val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(
                         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(historyData.dateAdded ?: "1970-01-01")
                     )
+
 
                     HistoryItem(
                         idProfile = historyData.idProfile ?: 0,
                         idData = historyData.id ?: 0,
                         title = "Hasil Analisis",
-                        date = formattedDate, // Updated date format
+                        date = formattedDate,
                         iconRes = R.drawable.ic_analysis,
                         labaKotor = historyData.labaKotor ?: 0,
                         bayarGaji = historyData.bayarGaji ?: 0,
@@ -120,10 +121,19 @@ class HistoryFragment : Fragment() {
                         biayaPajak = historyData.biayaPajak ?: 0
                     )
                 }.orEmpty()
+
+
                 adapter.updateData(mappedItems)
+
+
+                if (mappedItems.isEmpty()) {
+                    Toast.makeText(requireContext(), "Tidak ada data untuk tanggal yang dipilih.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+
+
 
 
     override fun onDestroyView() {

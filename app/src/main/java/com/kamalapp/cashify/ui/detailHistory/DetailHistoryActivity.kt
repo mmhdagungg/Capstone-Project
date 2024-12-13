@@ -1,10 +1,8 @@
 package com.kamalapp.cashify.ui.detailHistory
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kamalapp.cashify.R
 import java.text.NumberFormat
@@ -33,7 +31,6 @@ class DetailHistoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Inisialisasi TextViews
         tvLaba = findViewById(R.id.tvlaba)
         tvGaji = findViewById(R.id.tvGaji)
         tvAir = findViewById(R.id.tvAir)
@@ -45,7 +42,6 @@ class DetailHistoryActivity : AppCompatActivity() {
         tvDate = findViewById(R.id.tvdate)
         tvPrediksi = findViewById(R.id.tvPrediksi)
 
-        // Ambil data dari Intent
         val labaKotor = intent.getIntExtra("labaKotor", 0)
         val bayarGaji = intent.getIntExtra("bayarGaji", 0)
         val bayarAir = intent.getIntExtra("bayarAir", 0)
@@ -56,7 +52,6 @@ class DetailHistoryActivity : AppCompatActivity() {
         val biayaPajak = intent.getIntExtra("biayaPajak", 0)
         val date = intent.getStringExtra("date")
 
-        // Format angka dengan awalan Rp
         val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
 
         val netMargin = if (labaKotor > 0) {
@@ -66,7 +61,6 @@ class DetailHistoryActivity : AppCompatActivity() {
         }
         val netMarginFormatted = String.format("%.1f%%", netMargin)
 
-        // Set data ke TextView dengan format Rp
         tvLaba.text = currencyFormatter.format(labaKotor)
         tvGaji.text = currencyFormatter.format(bayarGaji)
         tvAir.text = currencyFormatter.format(bayarAir)

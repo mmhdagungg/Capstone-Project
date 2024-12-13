@@ -62,7 +62,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ed_login_emailLayout"
+        android:id="@+id/edEmailLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -89,11 +89,11 @@
         android:layout_marginTop="16dp"
         android:text="Password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_login_emailLayout" />
+        app:layout_constraintTop_toBottomOf="@id/edEmailLayout" />
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ed_login_passwordLayout"
+        android:id="@+id/edPasswordLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
         android:text="Login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_login_passwordLayout" />
+        app:layout_constraintTop_toBottomOf="@id/edPasswordLayout" />
 
 
     <ProgressBar

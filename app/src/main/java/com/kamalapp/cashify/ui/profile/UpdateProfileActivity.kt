@@ -41,23 +41,30 @@ class UpdateProfileActivity : AppCompatActivity() {
         btnUpdateProfile.setOnClickListener {
             val newName = edUpdateNama.text.toString().trim()
 
-            if (newName.isNotEmpty()) {
-                updateUserProfile(token, newName)
-            } else {
+            if (newName.isEmpty()) {
                 Toast.makeText(this, "Nama tidak boleh kosong", Toast.LENGTH_SHORT).show()
+            } else if (!isValidName(newName)) {
+                Toast.makeText(this, "Nama hanya boleh mengandung huruf dan spasi", Toast.LENGTH_SHORT).show()
+            } else {
+                updateUserProfile(token, newName)
             }
         }
+
     }
 
-    // Fungsi untuk menambahkan aksi back
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()  // Menangani aksi tombol back pada toolbar
+        onBackPressed()
         return true
     }
 
     private fun getToken(): String? {
         val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         return sharedPref.getString("TOKEN", null)
+    }
+
+    private fun isValidName(name: String): Boolean {
+        val regex = Regex("^[a-zA-Z\\s]+$")
+        return regex.matches(name)
     }
 
     private fun fetchUserProfile(token: String) {
@@ -91,9 +98,9 @@ class UpdateProfileActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@UpdateProfileActivity, "Nama berhasil diperbarui", Toast.LENGTH_SHORT).show()
 
-                    // Kirimkan hasil kembali ke ProfileActivity
+
                     setResult(RESULT_OK)
-                    finish() // Kembali ke ProfileActivity setelah berhasil
+                    finish()
                 } else {
                     Toast.makeText(
                         this@UpdateProfileActivity,
