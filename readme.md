@@ -13,6 +13,6 @@
 ## Technologies Used
 - **Frontend**: Kotlin
 - **Backend**: Python (Flask API)
-- **Database**: SQLite / MySQL (depending on implementation)
+- **Database**: MySQL
 - **Machine Learning**: Tensorflow combined with Linear Regression for financial predictions
 - **Deployment**: Cloud Run
